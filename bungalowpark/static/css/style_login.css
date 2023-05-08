@@ -1,0 +1,54 @@
+.container.mt-2 {
+    display: flex;
+    justify-content: center;
+  }
+  
+
+.row{
+    
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    text-align: center;
+    white-space: nowrap;
+    cursor: pointer;
+    color: #fff;
+    box-shadow: 0 0 0 0.01rem black;
+    border: none;
+    
+}
+.btn {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  text-align: center;
+  white-space: nowrap;
+  cursor: pointer;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+}
+.btn-primary {
+  background-color: #e4b37d;
+  color: #fff;
+
+}
+.btn-primary:hover {
+  background-color: #cc8454;
+  color: #fff;
+
+}
+
+.form-control{
+
+    background-color:#faf5f0;
+}
+.form-label{
+    text-align:start;
+}
