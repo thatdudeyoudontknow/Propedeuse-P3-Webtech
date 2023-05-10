@@ -104,3 +104,168 @@ body {
 .active {
   background-color: #c56e37;
 }
+
+/* style buiten box 1 */
+.box1 {
+  border-radius: 20px;
+  position: absolute;
+  width: 819px;
+  height: 318px;
+  
+  background: #E4B37D;
+  border-radius: 20px;
+  margin-left: 3%;
+
+}
+/* style binnen box 1 */
+.box1_in {
+  box-sizing: border-box;
+  
+  position: absolute;
+  width: 508px;
+  height: 260px;
+
+  border: 1px solid #CC8454;
+  border-radius: 20px;
+  margin-left: 34%;
+  margin-top: 3.5%;
+  color: white;
+  text-align: center;}
+
+/* style buiten box 2 */
+.box2 {
+  position: absolute;
+  width: 819px;
+  height: 318px;
+  
+  background: #E4B37D;
+  border-radius: 20px;
+  margin-left: 53%;
+}
+/* style binnen box 2 */
+.box2_in {
+  box-sizing: border-box;
+  
+  position: absolute;
+  width: 508px;
+  height: 260px;
+  
+  border: 1px solid #CC8454;
+  border-radius: 20px;
+  margin-left: 34%;
+  margin-top: 3.5%;
+  color: white;
+  text-align: center;
+}
+
+/* style buiten box 3 */
+.box3 {
+  position: absolute;
+  width: 819px;
+  height: 318px;
+  
+  background: #E4B37D;
+  border-radius: 20px;
+  margin-left: 3%;
+  margin-top: 20%;
+}
+/* style binnen box 3 */
+.box3_in {
+  box-sizing: border-box;
+  
+  position: absolute;
+  width: 508px;
+  height: 260px;
+  
+  border: 1px solid #CC8454;
+  border-radius: 20px;
+  margin-left: 34%;
+  margin-top: 3.5%;
+  color: white;
+  text-align: center;
+}
+
+/* style buiten box 4 */
+.box4 {
+  position: absolute;
+  width: 819px;
+  height: 318px;
+  
+  background: #E4B37D;
+  border-radius: 20px;
+  margin-left: 53%;
+  margin-top: 20%;
+}
+/* style binnen box 4 */
+.box4_in {
+  box-sizing: border-box;
+  
+  position: absolute;
+  width: 508px;
+  height: 260px;
+  
+  border: 1px solid #CC8454;
+  border-radius: 20px;
+  margin-left: 34%;
+  margin-top: 3.5%;
+  color: white;
+  text-align: center;
+
+}
+
+/* style binnen box 1 */
+.box1_img {
+  background-image: url("../img/bungalow1.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  border-radius: 20px;
+  position: absolute;
+  width: 224px;
+  height: 260px;
+  left: 3%;
+  top: 9%;
+}
+
+.box2_img {
+  background-image: url("../img/bungalow1.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  border-radius: 20px;
+  position: absolute;
+  width: 224px;
+  height: 260px;
+  left: 3%;
+  top: 9%;
+}
+
+
+.box3_img {
+  background-image: url("../img/bungalow1.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  border-radius: 20px;
+  position: absolute;
+  width: 224px;
+  height: 260px;
+  left: 3%;
+  top: 9%;
+}
+
+
+.box4_img {
+  background-image: url("../img/bungalow1.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  border-radius: 20px;
+  position: absolute;
+  width: 224px;
+  height: 260px;
+  left: 3%;
+  top: 9%;
+}
+
+
