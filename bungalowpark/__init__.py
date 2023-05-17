@@ -31,27 +31,27 @@ from bungalowpark.forms import LoginForm, RegistrationForm, BoekingForm
 @app.route('/')
 def index():
     bungalows = Bungalow.query.all()
-    return render_template('home.html', bungalows=bungalows)
+    return render_template('home.html',  name=current_user, bungalows=bungalows)
 
 
-@app.route('/bungalow/<bungalow>', methods=['GET', 'POST'])
-def bungalow(bungalow):
-    form = BoekingForm()
-    # print(bungalow)
-    bungalow = Bungalow.query.filter_by(naam=bungalow)
-    # print(bungalow)
-    # print(form.validate_on_submit())
-    if form.validate_on_submit():
-        # Maak boeking met de gegevens van de gebruiker
-        boeking = Boeking(userID=current_user.id,
-                    bungalowID=form.bungalowID.data,
-                    weeknummer=form.weeknummer.data)
+# @app.route('/bungalow/<bungalow>', methods=['GET', 'POST'])
+# def bungalow(bungalow):
+#     form = BoekingForm()
+#     # print(bungalow)
+#     bungalow = Bungalow.query.filter_by(naam=bungalow)
+#     # print(bungalow)
+#     # print(form.validate_on_submit())
+#     if form.validate_on_submit():
+#         # Maak boeking met de gegevens van de gebruiker
+#         boeking = Boeking(userID=current_user.id,
+#                     bungalowID=form.bungalowID.data,
+#                     startdatum=form.startdatum.data)
 
-        db.session.add(boeking)
-        db.session.commit()
-        flash('Het boeken van de bungalow is gelukt', 'success')
-        return redirect(url_for('index'))
-    return render_template('bungalow.html', valve=bungalow, bungalow=bungalow, form=form)
+#         db.session.add(boeking)
+#         db.session.commit()
+#         flash('Het boeken van de bungalow is gelukt', 'success')
+#         return redirect(url_for('index'))
+#     return render_template('bungalow.html', valve=bungalow, bungalow=bungalow, form=form)
 
 @app.route('/logout')
 @login_required
@@ -86,16 +86,6 @@ def login():
         if user is not None and user.check_password(form.password.data):
             login_user(user)
             flash(u'Succesvol ingelogd.', 'success')
-    #         next = request.args.get('next')
-    #         if next == None or not next[0]=='/':
-    #             next = url_for('index')
-    #             return redirect(next)
-    #     else:
-    #         flash(u'U email of wachtwoord is niet correct.', 'warning')     
-    # # else: 
-    # #     flash(u'U email of wachtwoord is niet correct.', 'warning')              
-    # return render_template('login.html', form=form) 
-
     
             next = request.args.get('next')
             if not next or url_parse(next).netloc != '':
@@ -170,43 +160,73 @@ def register():
 
     return render_template('register.html', form=form)
 
+
+@app.route('/1reserveringspagina', methods=['GET', 'POST'])
+def reserveer():
+    form = BoekingForm()
+    guser = LoginForm()
+    if form.validate_on_submit():
+        Boeking_bungalowID = Boeking.query.filter_by(bungalowID=form.bungalowID.data).first()
+        Boeking_startdatum = Boeking.query.filter_by(startdatum=form.startdatum.data).first()
+        Boeking_einddatum = Boeking.query.filter_by(einddatum=form.startdatum.data).first()
+        user = User.query.filter_by(email=guser.email.data).first()
+        
+        if user is not None and user.check_password(form.password.data):
+
+            if user:
+                boeking = Boeking(bungalowID=form.bungalowID.data,
+                    email=guser.email.data,
+                    startdatum=form.startdatum.data,
+                    einddatum=form.einddatum.data)
+            else:
+                flash(u'email is niet correct', 'warning')
+
+            db.session.add(boeking)
+            db.session.commit()
+
+            flash(u'u heeft met succes uw bungalow geboekt')
+            return redirect(url_for('accomidatiepagina'))
+
+    return render_template('1reserveringspagina.html', name=current_user, form=form, guser=guser)
+
+
 @app.route('/1accomidatiepagina')
 def accomidatiepagina():
-    return render_template('1accomidatiepagina.html')
+    return render_template('1accomidatiepagina.html',name=current_user)
 
 @app.route('/1activiteitenpagina')
 def activiteitenpagina():
-    return render_template('1activiteitenpagina.html')
+    return render_template('1activiteitenpagina.html',name=current_user)
 
 @app.route('/1blogpagina')
 def blogpagina():
-    return render_template('1blogpagina.html')
+    return render_template('1blogpagina.html',name=current_user)
 
 @app.route('/1contactpagina')
 def contactpagina():
-    return render_template('1contactpagina.html')
+    return render_template('1contactpagina.html',name=current_user)
 
 @app.route('/1faciliteitenpagina')
 def faciliteitenpagina():
-    return render_template('1faciliteitenpagina.html')
+    return render_template('1faciliteitenpagina.html',name=current_user)
 
 @app.route('/1homepagina')
 def homepagina():
-    return render_template('1homepagina.html')
+    return render_template('1homepagina.html',name=current_user)
 
 @app.route('/1informatiepagina')
 def informatiepagina():
-    return render_template('1informatiepagina.html')
+    return render_template('1informatiepagina.html',name=current_user)
 
 @app.route('/1omgevingspagina')
 def omgevingspagina():
-    return render_template('1omgevingspagina.html')
+    return render_template('1omgevingspagina.html',name=current_user)
 
 @app.route('/1over ons-pagina')
 def over_ons_pagina():
-    return render_template('1over ons-pagina.html')
+    return render_template('1over ons-pagina.html',name=current_user)
 
 @app.route('/1reserveringspagina')
 @login_required
 def reserveringspagina():
-    return render_template('1reserveringspagina.html')
+    return render_template('1reserveringspagina.html',  name=current_user)

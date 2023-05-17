@@ -1,8 +1,9 @@
-from bungalowpark.models import Bungalow, BungalowType, User, Boeking 
+from bungalowpark.models import Bungalow, BungalowType, User, Boeking
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField, HiddenField, SelectField, DateTimeField, DateField, IntegerField
-from wtforms.validators import DataRequired, Email, EqualTo
+from wtforms.validators import DataRequired, Email, EqualTo, Optional
 from wtforms import ValidationError
+
 
 class RegistrationForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(),Email()])
@@ -26,14 +27,18 @@ class LoginForm(FlaskForm):
 
 class BoekingForm(FlaskForm):
     # userID = StringField('userID', validators=[DataRequired()])
-    bungalowID = HiddenField('bungalowID', validators=[DataRequired()])
-    weeknummer =  HiddenField('weeknummer', validators=[DataRequired()])
-    submit = SubmitField('Boek Nu!')
+    bungalowID = StringField('bungalowID', validators=[DataRequired()])
+    startdatum =  StringField('startdatum', validators=[DataRequired()])
+    einddatum =  StringField('einddatum', validators=[DataRequired()])
+    email = StringField('Email', validators=[DataRequired(), Email()])
+    password = PasswordField('wachtwoord', validators=[DataRequired()])
+    submit = SubmitField('Boek LATER!')
 
-class BoekingUpdateForm(FlaskForm):
-    bungalowID = HiddenField('bungalowID', validators=[DataRequired()])
-    weeknummer =  HiddenField('weeknummer', validators=[DataRequired()])
-    submit = SubmitField('Boek Nu!')
+# class BoekingUpdateForm(FlaskForm):
+#     bungalowID = HiddenField('bungalowID', validators=[DataRequired()])
+#     weeknummer =  HiddenField('weeknummer', validators=[DataRequired()])
+#     submit = SubmitField('Boek NU!')
+
 
 
 

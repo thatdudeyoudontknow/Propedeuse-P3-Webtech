@@ -1,6 +1,7 @@
 from bungalowpark import db, app, login_manager
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import UserMixin
+from flask_login import UserMixin, current_user
+
 
 # login_manager haalt user op
 @login_manager.user_loader
@@ -13,7 +14,7 @@ class Bungalow(db.Model):
 
     id = db.Column(db.Integer(),primary_key = True)
     naam = db.Column(db.String(50), nullable=False, unique=True, index=True)
-    typeID = db.Column(db.Integer,db.ForeignKey('type.id'))
+    typeID = db.Column(db.Integer(),db.ForeignKey('type.id'))
     boeking = db.relationship('Boeking', backref='bungalow' ,uselist=False)
 
     def __init__(self,naam,typeID):
@@ -57,24 +58,27 @@ class User(db.Model,UserMixin):
         return check_password_hash(self.password_hash, password)
 
     def __repr__(self):
-        return f"De gebruikers naam is  {self.username}"
+        return f"Welkom{self.username}"
 
 class Boeking(db.Model):
 
-    __tablename__ = 'boekingen'
+    __tablename__ = 'reserveringen'
 
     id = db.Column(db.Integer(),primary_key= True)
-    userID = db.Column(db.Integer(), db.ForeignKey('users.id'), nullable=False)
-    bungalowID =  db.Column(db.Integer, db.ForeignKey('bungalows.id'), nullable=False)
-    weeknummer = db.Column(db.Integer(), nullable=False)
+    bungalowID =  db.Column(db.Integer(), db.ForeignKey('bungalows.id'), nullable=False)
+    email = db.Column(db.Integer(), nullable=False)
+    startdatum = db.Column(db.Integer(), nullable=False)
+    einddatum = db.Column(db.Integer(), nullable=False)
     
-    def __init__(self,weeknummer,userID,bungalowID):
-        self.weeknummer = weeknummer
-        self.userID = userID
+    def __init__(self,startdatum,email,einddatum,bungalowID):
         self.bungalowID = bungalowID
+        self.email = email
+        self.startdatum = startdatum
+        self.einddatum = einddatum
+
 
     def __repr__(self):
-        return f"de boeking is gedaan bij {self.userID} voor week  {self.weeknummer}. De bungalow is {self.bungalow.naam}"
+        return f"de boeking is gedaan bij {self.userID} voor week  {self.startdatum}. De bungalow is {self.bungalowID}"
     
 
 # class reservation(db.Model):
