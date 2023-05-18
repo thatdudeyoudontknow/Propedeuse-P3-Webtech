@@ -2,7 +2,6 @@ from bungalowpark import db, app, login_manager
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin, current_user
 
-
 # login_manager haalt user op
 @login_manager.user_loader
 def load_user(user_id):
@@ -49,10 +48,22 @@ class User(db.Model,UserMixin):
     username = db.Column(db.String(64), unique=True, nullable=False, index=True)
     password_hash = db.Column(db.String(120), nullable=False)
 
-    def __init__(self, email, username,password):
+    woonplaats = db.Column(db.String(40), nullable=False)
+    huisnummer = db.Column(db.Integer(), nullable=False)
+    straat = db.Column(db.String(40), nullable=False)
+    postcode = db.Column(db.String(6), nullable=False)
+
+
+
+    def __init__(self, email, username,password, woonplaats,huisnummer,straat,postcode):
         self.email = email
         self.username = username
         self.password_hash = generate_password_hash(password)
+        self.woonplaats = woonplaats
+        self.huisnummer = huisnummer
+        self.straat = straat
+        self.postcode=postcode
+
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
@@ -76,7 +87,6 @@ class Boeking(db.Model):
         self.startdatum = startdatum
         self.einddatum = einddatum
 
-
     def __repr__(self):
         return f"de boeking is gedaan bij {self.userID} voor week  {self.startdatum}. De bungalow is {self.bungalowID}"
     
@@ -92,3 +102,4 @@ class Boeking(db.Model):
 
 with app.app_context():
     db.create_all()
+

@@ -8,6 +8,10 @@ from wtforms import ValidationError
 class RegistrationForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(),Email()])
     username = StringField('Gebruikersnaam', validators=[DataRequired()])
+    woonplaats= StringField('Woonplaats', validators=[DataRequired()])
+    huisnummer= StringField('Huisnummer', validators=[DataRequired()])
+    straat= StringField('Straat', validators=[DataRequired()])
+    postcode= StringField('Postcode', validators=[DataRequired()])
     password = PasswordField('Wachtwoord', validators=[DataRequired(), EqualTo('pass_confirm',    message='Wachtwoorden moeten gelijk zijn!')])
     pass_confirm = PasswordField('Bevestig uw wachtwoord', validators=[DataRequired()])
     submit = SubmitField('Registeren!')

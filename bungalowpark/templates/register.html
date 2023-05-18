@@ -13,20 +13,36 @@
             <form method="POST">
                 {{ form.hidden_tag() }}
                 <div class="mb-2">
-                {{ form.email.label(class="form-label") }} 
-                {{ form.email(class="form-control") }}
+                    {{ form.email.label(class="form-label") }} 
+                    {{ form.email(class="form-control") }}
                 </div>
                 <div class="mb-2">
-                {{ form.username.label(class="form-label") }} 
-                {{ form.username(class="form-control") }}
+                    {{ form.username.label(class="form-label") }} 
+                    {{ form.username(class="form-control") }}
                 </div>
                 <div class="mb-2">
-                {{ form.password.label(class="form-label") }} 
-                {{ form.password(class="form-control") }}
+                    {{ form.password.label(class="form-label") }} 
+                    {{ form.password(class="form-control") }}
                 </div>
                 <div class="mb-2">
-                {{ form.pass_confirm.label(class="form-label") }}
-                {{ form.pass_confirm(class="form-control") }}
+                    {{ form.pass_confirm.label(class="form-label") }}
+                    {{ form.pass_confirm(class="form-control") }}
+                </div>
+                <div class="mb-2">
+                    {{ form.woonplaats.label(class="form-label") }}
+                    {{ form.woonplaats(class="form-control") }}
+                </div>
+                <div class="mb-2">
+                    {{ form.huisnummer.label(class="form-label") }}
+                    {{ form.huisnummer(class="form-control") }}
+                </div>
+                <div class="mb-2">
+                    {{ form.straat.label(class="form-label") }}
+                    {{ form.straat(class="form-control") }}
+                </div>
+                <div class="mb-2">
+                    {{ form.postcode.label(class="form-label") }}
+                    {{ form.postcode(class="form-control") }}
                 </div>
                 {{ form.submit(class="btn btn-primary") }}
             </form>
