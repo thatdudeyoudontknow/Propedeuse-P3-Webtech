@@ -224,10 +224,7 @@ body {
 
 /* style binnen box 1 */
 .box1_img {
-  background-image: url("../img/bungalow1.png");
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center center;
+
   border-radius: 20px;
   position: absolute;
   width: 224px;
@@ -235,12 +232,8 @@ body {
   left: 3%;
   top: 9%;
 }
-
 .box2_img {
-  background-image: url("../img/bungalow1.png");
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center center;
+
   border-radius: 20px;
   position: absolute;
   width: 224px;
@@ -251,10 +244,7 @@ body {
 
 
 .box3_img {
-  background-image: url("../img/bungalow1.png");
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center center;
+
   border-radius: 20px;
   position: absolute;
   width: 224px;
@@ -264,11 +254,9 @@ body {
 }
 
 
+
 .box4_img {
-  background-image: url("../img/bungalow1.png");
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center center;
+
   border-radius: 20px;
   position: absolute;
   width: 224px;
