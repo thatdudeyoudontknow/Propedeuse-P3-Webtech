@@ -33,7 +33,5 @@ class BoekingForm(FlaskForm):
     bungalowID = StringField('bungalowID', validators=[DataRequired()])
     startdatum =  StringField('startdatum', validators=[DataRequired()])
     einddatum =  StringField('einddatum', validators=[DataRequired()])
-    email = StringField('Email', validators=[DataRequired(), Email()])
-    password = PasswordField('wachtwoord', validators=[DataRequired()])
     submit = SubmitField('Boek NU!')
 

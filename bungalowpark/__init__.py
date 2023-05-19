@@ -5,7 +5,7 @@ from flask_migrate import Migrate
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user 
 from datetime import datetime
 from werkzeug.urls import url_parse
-
+from flask_login import current_user
 
 app = Flask(__name__)
 
@@ -95,34 +95,25 @@ def register():
     return render_template('register.html', form=form)
 
 
+
 @app.route('/1reserveringspagina', methods=['GET', 'POST'])
 @login_required
 def reserveer():
     form = BoekingForm()
-    guser = LoginForm()
     if form.validate_on_submit():
-        Boeking_bungalowID = Boeking.query.filter_by(bungalowID=form.bungalowID.data).first()
-        Boeking_startdatum = Boeking.query.filter_by(startdatum=form.startdatum.data).first()
-        Boeking_einddatum = Boeking.query.filter_by(einddatum=form.startdatum.data).first()
-        user = User.query.filter_by(email=guser.email.data).first()
+        boeking = Boeking(bungalowID=form.bungalowID.data,
+                          email=current_user.email,
+                          startdatum=form.startdatum.data,
+                          einddatum=form.einddatum.data)
         
-        if user is not None and user.check_password(form.password.data):
+        db.session.add(boeking)
+        db.session.commit()
 
-            if user:
-                boeking = Boeking(bungalowID=form.bungalowID.data,
-                    email=guser.email.data,
-                    startdatum=form.startdatum.data,
-                    einddatum=form.einddatum.data)
-            else:
-                flash(u'email is niet correct', 'warning')
+        flash(u'U heeft met succes uw bungalow geboekt', 'success')
+        return redirect(url_for('accomidatiepagina'))
 
-            db.session.add(boeking)
-            db.session.commit()
+    return render_template('1reserveringspagina.html', name=current_user, form=form)
 
-            flash(u'u heeft met succes uw bungalow geboekt')
-            return redirect(url_for('accomidatiepagina'))
-
-    return render_template('1reserveringspagina.html', name=current_user, form=form, guser=guser)
 
 
 @app.route('/gebruiker')
