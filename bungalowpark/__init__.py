@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, redirect, request, url_for, flash
+from flask import Flask, render_template, redirect, request, url_for, flash, abort
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 # from flask_login import LoginManager, UserMixin, login_required
@@ -214,18 +214,22 @@ def update_boeking():
     # Retrieve the Boeking record from the database
     boeking = Boeking.query.get(boeking_id)
 
+
     if boeking:
-        # Update the Boeking record
-        boeking.startdatum = startdatum
-        boeking.einddatum = einddatum
+        # Check if the logged-in user owns the Boeking record
+        if current_user.email == boeking.email:
+            # Update the Boeking record
+            boeking.startdatum = startdatum
+            boeking.einddatum = einddatum
 
-        # Commit the changes to the database
-        db.session.commit()
+            # Commit the changes to the database
+            db.session.commit()
 
-        # Redirect the user to a relevant page
-        return redirect(url_for('gebruiker'))
+            # Redirect the user to a relevant page
+            return redirect('/gebruiker')
+        else:
+            abort(403)  # Return a Forbidden error
     else:
-        # Handle the case when the Boeking record is not found
         return flash(u'Boeking ID is niet bekend', 'warning')
 
 
