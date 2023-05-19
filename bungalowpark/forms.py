@@ -1,11 +1,11 @@
-from bungalowpark.models import Bungalow, BungalowType, User, Boeking
+from bungalowpark.models import User
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, HiddenField, SelectField, DateTimeField, DateField, IntegerField
-from wtforms.validators import DataRequired, Email, EqualTo, Optional
+from wtforms import StringField, PasswordField, SubmitField
+from wtforms.validators import DataRequired, Email, EqualTo
 from wtforms import ValidationError
 
 
-class RegistrationForm(FlaskForm):
+class Registratieformulier(FlaskForm):
     email = StringField('Email', validators=[DataRequired(),Email()])
     username = StringField('Gebruikersnaam', validators=[DataRequired()])
     woonplaats= StringField('Woonplaats', validators=[DataRequired()])
@@ -30,7 +30,6 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Inloggen')
 
 class BoekingForm(FlaskForm):
-    # userID = StringField('userID', validators=[DataRequired()])
     bungalowID = StringField('bungalowID', validators=[DataRequired()])
     startdatum =  StringField('startdatum', validators=[DataRequired()])
     einddatum =  StringField('einddatum', validators=[DataRequired()])
@@ -38,17 +37,3 @@ class BoekingForm(FlaskForm):
     password = PasswordField('wachtwoord', validators=[DataRequired()])
     submit = SubmitField('Boek NU!')
 
-# class BoekingUpdateForm(FlaskForm):
-#     bungalowID = HiddenField('bungalowID', validators=[DataRequired()])
-#     weeknummer =  HiddenField('weeknummer', validators=[DataRequired()])
-#     submit = SubmitField('Boek NU!')
-
-
-
-
-# class ReservationForm(Form):
-#     guest_name = StringField('guest_name', validators=[DataRequired()])
-#     guest_phone = StringField('guest_phone', validators=[DataRequired()])
-#     num_guests = SelectField('num_guests', coerce=int, choices = [(x, x) for x in range(1, 6)])
-#     reservation_datetime = DateTimeField('reservation_datetime', default=datetime.now(),
-#                                          validators=[DataRequired()])

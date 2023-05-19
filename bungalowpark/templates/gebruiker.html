@@ -4,24 +4,24 @@
 <h1>Uw boekingen</h1>
 
 <ul>
-    {% for item in bungID %}
     <table>
         <tr>
-            <th>nummer</th>
+            <th>Boekingnummer</th>
             <th>Bungalow ID</th>
             <th>startdatum</th>            
             <th>einddatum</th>
             
         </tr>
+    {% for item in bungID %}
     <tr>
     <td>{{ item.id }}</td>
     <td>{{ item.bungalowID }}</td>
     <td>{{ item.startdatum }}</td>
     <td>{{ item.einddatum }}</td>
     </tr>
+    {% endfor %}
+    </table>
 
-</table>
-{% endfor %}
 </ul>
 <h1>pas uw boeking aan </h1>
 <form action="/update_boeking" method="POST">
