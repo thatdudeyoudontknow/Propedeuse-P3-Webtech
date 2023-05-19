@@ -36,7 +36,7 @@ class BoekingForm(FlaskForm):
     einddatum =  StringField('einddatum', validators=[DataRequired()])
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('wachtwoord', validators=[DataRequired()])
-    submit = SubmitField('Boek LATER!')
+    submit = SubmitField('Boek NU!')
 
 # class BoekingUpdateForm(FlaskForm):
 #     bungalowID = HiddenField('bungalowID', validators=[DataRequired()])

@@ -14,11 +14,7 @@
 <div class="container">
     {% for bungalow in bungalows  %}
     
-  
- 
-
-
-    <!-- <div class="card mb-12" style="max-width: 540px;"> -->
+      <!-- <div class="card mb-12" style="max-width: 540px;"> -->
     <div class="card mb-12 mb-3" >
         <div class="row g-0">
           <div class="col-md-3">
@@ -38,11 +34,35 @@
       {% endfor %}
       
 
-
-
-
-
 </div>
+<div class="content">
+  <div class="header">
+    <h1>Welkom bij Bungalowpark</h1>
+  </div>
+  <h2>Over ons</h2>
+  <p>Welkom bij Bungalowpark, een rustige plek midden in de natuur. Ons park biedt een scala aan comfortabele bungalows voor uw ontspanning en plezier.</p>
+  
+  <h2>Ontdek onze voorzieningen</h2>
+  <ul>
+    <li>Zwembad</li>
+    <li>Tennisbanen</li>
+    <li>Wandelroutes</li>
+    <li>Speeltuin voor kinderen</li>
+    <li>Restaurant en bar</li>
+  </ul>
+  
+  <h2>Boek uw verblijf</h2>
+  <p>Plan uw volgende vakantie bij Bungalowpark en ervaar de rust van onze prachtige omgeving. Neem vandaag nog contact met ons op om uw verblijf te boeken.</p>
+  
+  <h2>Contactgegevens</h2>
+  <p>Telefoon: 123-456-7890</p>
+  <p>E-mail: info@bungalowpark.nl</p>
+</div>
+
+<div class="footer">
+  <p>&copy; 2023 Bungalowpark. Alle rechten voorbehouden.</p>
+</div>
+</body>
 {% endblock %}
 
       <img src="{{ url_for('static', filename='img/bungalow.png') }}" style="text-align:center; width: 20%; height: 20%;">

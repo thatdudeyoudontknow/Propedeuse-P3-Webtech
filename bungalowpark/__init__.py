@@ -5,7 +5,7 @@ from flask_migrate import Migrate
 # from flask_login import LoginManager, UserMixin, login_required
 # from flask_bcrypt import Bcrypt
 from flask_wtf import FlaskForm
-from flask_login import LoginManager, login_user, login_required, logout_user, current_user
+from flask_login import LoginManager, login_user, login_required, logout_user, current_user 
 from datetime import datetime, date
 from werkzeug.urls import url_parse
 
@@ -192,6 +192,42 @@ def reserveer():
             return redirect(url_for('accomidatiepagina'))
 
     return render_template('1reserveringspagina.html', name=current_user, form=form, guser=guser)
+
+
+@app.route('/gebruiker')
+def gebruiker():
+    log_email = current_user.email
+    # Retrieve data from the database
+
+    bungID = Boeking.query.filter_by(email=log_email).all()
+
+    # Render the HTML template and pass the data
+    return render_template('gebruiker.html',  bungID=bungID ,name=current_user )
+
+@app.route('/update_boeking', methods=['POST'])
+def update_boeking():
+    # Get form data
+    boeking_id = request.form.get('boeking_id')
+    startdatum = request.form.get('startdatum')
+    einddatum = request.form.get('einddatum')
+
+    # Retrieve the Boeking record from the database
+    boeking = Boeking.query.get(boeking_id)
+
+    if boeking:
+        # Update the Boeking record
+        boeking.startdatum = startdatum
+        boeking.einddatum = einddatum
+
+        # Commit the changes to the database
+        db.session.commit()
+
+        # Redirect the user to a relevant page
+        return redirect(url_for('gebruiker'))
+    else:
+        # Handle the case when the Boeking record is not found
+        return flash(u'Boeking ID is niet bekend', 'warning')
+
 
 
 @app.route('/1accomidatiepagina')

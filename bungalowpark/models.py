@@ -62,14 +62,15 @@ class User(db.Model,UserMixin):
         self.woonplaats = woonplaats
         self.huisnummer = huisnummer
         self.straat = straat
-        self.postcode=postcode
+        self.postcode = postcode
 
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
     def __repr__(self):
-        return f"Welkom{self.username}"
+        return f"Welkom, {self.username}"
+
 
 class Boeking(db.Model):
 
