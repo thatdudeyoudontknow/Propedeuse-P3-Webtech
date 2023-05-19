@@ -1,8 +1,8 @@
 from bungalowpark import db, app, login_manager
 from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import UserMixin, current_user
+from flask_login import UserMixin
 
-# login_manager haalt user op
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(user_id)
@@ -92,14 +92,6 @@ class Boeking(db.Model):
         return f"de boeking is gedaan bij {self.userID} voor week  {self.startdatum}. De bungalow is {self.bungalowID}"
     
 
-# class reservation(db.Model):
-#     id = db.Column(db.Integer, primary_key=True)
-#     guest_id = db.Column(db.Integer, db.ForeignKey('guest.id'))
-#     guest = db.relationship('Guest')
-#     table_id = db.Column(db.Integer, db.ForeignKey('table.id'))
-#     table = db.relationship('Table')
-#     num_guests = db.Column(db.Integer, index=True)
-#     reservation_time = db.Column(db.DateTime, index=True)
 
 with app.app_context():
     db.create_all()
