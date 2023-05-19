@@ -1,33 +1,31 @@
 {% extends "base.html" %}
 {% block content %}
-<!-- <div class="jumbotron">
-    <h1>Bungalow park feest</h1>
-    
-</div> -->
-<div class="container">
-    {% for bungalow in bungalows  %}
-    
-  
- 
 
 
-    <!-- <div class="card mb-12" style="max-width: 540px;"> -->
-    <div class="card mb-12 mb-3" >
-        <div class="row g-0">
-          <div class="col-md-3">
-            <img  class="img-fluid"  src="https://images.ctfassets.net/gxwgulxyxxy1/4J1luUndx2FU0RKJnkFFwB/1974f23ea4a85a22a7cee70da9b2d332/header_huisje_Nederland.jpg?fm=jpg&fl=progressive&w=250&h=180&fit=fill&q=25" alt="...">
-          </div>
-          <div class="col-md-8">
-            <div class="card-body">
-              <h5 class="card-title">{{bungalow.naam}}</h5>
-              <!-- <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p> -->
-              <p class="card-text"><small class="text-muted">Vakantiehuis - {{bungalow.bungalowType.aantalPersonen}} persoons - {{(bungalow.bungalowType.aantalPersonen / 2 )|int }} slaapkamers  </small></p>
-              <!-- <p class="card-text"><small class="text-muted">Vakantiehuis -  - 150 m² </small></p> - 150 m² -->
-              <p class="card-text position-absolute"  style="width: 100%!important; text-align: right;" >{{bungalow.bungalowType.weekprijs}},-</p>
-            </div>
-          </div>
-        </div>
+  <div class="dropdown">
+    <form action="/" method="POST">
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        {% if selected_option %}
+          {{ selected_option }}
+        {% else %}
+          Dropdown
+        {% endif %}
+      </button>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+        {% for option in options %}
+          <button class="dropdown-item" type="submit" name="option" value="{{ option }}">{{ option }}</button>
+        {% endfor %}
       </div>
-      {% endfor %}
-</div>
+    </form>
+  </div>
+
+
+  <select class="form-select">
+    <option>1</option>
+    <option>2</option>
+    <option>3</option>
+    <option>4</option>
+  </select>
+
+
 {% endblock %}

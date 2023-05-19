@@ -21,14 +21,6 @@
                     {{ form.username(class="form-control") }}
                 </div>
                 <div class="mb-2">
-                    {{ form.password.label(class="form-label") }} 
-                    {{ form.password(class="form-control") }}
-                </div>
-                <div class="mb-2">
-                    {{ form.pass_confirm.label(class="form-label") }}
-                    {{ form.pass_confirm(class="form-control") }}
-                </div>
-                <div class="mb-2">
                     {{ form.woonplaats.label(class="form-label") }}
                     {{ form.woonplaats(class="form-control") }}
                 </div>
@@ -43,6 +35,14 @@
                 <div class="mb-2">
                     {{ form.postcode.label(class="form-label") }}
                     {{ form.postcode(class="form-control") }}
+                </div>
+                <div class="mb-2">
+                    {{ form.password.label(class="form-label") }} 
+                    {{ form.password(class="form-control") }}
+                </div>
+                <div class="mb-2">
+                    {{ form.pass_confirm.label(class="form-label") }}
+                    {{ form.pass_confirm(class="form-control") }}
                 </div>
                 {{ form.submit(class="btn btn-primary") }}
             </form>

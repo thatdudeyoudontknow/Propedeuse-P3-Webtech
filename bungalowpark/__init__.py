@@ -82,7 +82,6 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
-        print(user)
         if user is not None and user.check_password(form.password.data):
             login_user(user)
             flash(u'Succesvol ingelogd.', 'success')
@@ -166,6 +165,7 @@ def register():
 
 
 @app.route('/1reserveringspagina', methods=['GET', 'POST'])
+@login_required
 def reserveer():
     form = BoekingForm()
     guser = LoginForm()
@@ -234,3 +234,9 @@ def over_ons_pagina():
 @login_required
 def reserveringspagina():
     return render_template('1reserveringspagina.html',  name=current_user)
+
+@app.route('/test')
+def test():
+    selected_option = '1'#request.form['option']
+    options = ["Action", "Another action", "Something else here"]
+    return render_template('test.html', options=options, selected_option=selected_option)
