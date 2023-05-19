@@ -7,61 +7,51 @@
     {{ message }}
 </div>
 {% endfor %}
-<!-- <div class="jumbotron">
-    <h1>Bungalow park feest</h1>
-    
-</div> -->
-<div class="container">
-    {% for bungalow in bungalows  %}
-    
-      <!-- <div class="card mb-12" style="max-width: 540px;"> -->
-    <div class="card mb-12 mb-3" >
-        <div class="row g-0">
-          <div class="col-md-3">
-            <img  class="img-fluid"  src="https://images.ctfassets.net/gxwgulxyxxy1/4J1luUndx2FU0RKJnkFFwB/1974f23ea4a85a22a7cee70da9b2d332/header_huisje_Nederland.jpg?fm=jpg&fl=progressive&w=250&h=180&fit=fill&q=25" alt="...">
-          </div>
-          <div class="col-md-8">
-            <div class="card-body">
-              <h5 class="card-title">{{bungalow.naam}}</h5>
-              <!-- <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p> -->
-              <p class="card-text"><small class="text-muted">Vakantiehuis - {{bungalow.bungalowType.aantalPersonen}} persoons - {{(bungalow.bungalowType.aantalPersonen / 2 )|int }} slaapkamers  </small></p>
-              <!-- <p class="card-text"><small class="text-muted">Vakantiehuis -  - 150 m² </small></p> - 150 m² -->
-              <p class="card-text position-absolute"  style="width: 100%!important; text-align: right;" >{{bungalow.bungalowType.weekprijs}},-</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      {% endfor %}
-      
-
+  
+<div class="header">
+  <h1>Welkom bij Bungalowpark Zee en Duin</h1>
+</div>
 </div>
 <div class="content">
-  <div class="header">
-    <h1>Welkom bij Bungalowpark</h1>
-  </div>
-  <h2>Over ons</h2>
-  <p>Welkom bij Bungalowpark, een rustige plek midden in de natuur. Ons park biedt een scala aan comfortabele bungalows voor uw ontspanning en plezier.</p>
-  
-  <h2>Ontdek onze voorzieningen</h2>
-  <ul>
-    <li>Zwembad</li>
-    <li>Tennisbanen</li>
-    <li>Wandelroutes</li>
-    <li>Speeltuin voor kinderen</li>
-    <li>Restaurant en bar</li>
-  </ul>
-  
-  <h2>Boek uw verblijf</h2>
-  <p>Plan uw volgende vakantie bij Bungalowpark en ervaar de rust van onze prachtige omgeving. Neem vandaag nog contact met ons op om uw verblijf te boeken.</p>
-  
-  <h2>Contactgegevens</h2>
-  <p>Telefoon: 123-456-7890</p>
-  <p>E-mail: info@bungalowpark.nl</p>
+
+
+
+  <div class="box5">
+    <div >
+        <img class="box5_img" src="{{ url_for('static', filename='img/tent1.png') }}" >
+    </div> 
+    <div class="box5_in">
+        <p><b>over ons</b></p>
+
+
+        <p><b>Welkom bij Bungalowpark Zee & Duin, de perfecte bestemming voor een geweldige vakantie!
+          Ons park biedt de ideale omgeving voor een ontspannen verblijf in een prachtige omgeving.
+          Geniet van de gezelligheid en het comfort van onze bungalows, waar je je meteen thuis zult voelen.
+          De volledig ingerichte accommodaties hebben ruime woonkamers, comfortabele slaapkamers en goed uitgeruste keukens.
+          <br>
+          <br>
+          Ontdek de adembenemende natuur rondom ons park, met weelderige duinen en de verfrissende zee op steenworp afstand.
+          Maak een ontspannende wandeling over het strand, luister naar het geluid van de golven en geniet van prachtige zonsondergangen.
+          Voor avonturiers biedt ons park diverse activiteiten, zoals surfen, zeilen en fietsen.
+          Verken de omgeving en ontdek pittoreske dorpjes en adembenemende landschappen.
+          <br>
+          <br>
+          Op het park zelf zijn er ook genoeg faciliteiten.
+          Begin je dag met een heerlijk ontbijt in ons gezellige restaurant, waar je ook kunt genieten van lokale gerechten voor lunch en diner.
+          Onze goed gevulde supermarkt zorgt ervoor dat je alles binnen handbereik hebt.
+          Daarnaast is er een verwarmd zwembad en een speeltuin voor de kinderen.
+          <br>
+          <br>
+          Een vakantie in een bungalow bij Bungalowpark Zee & Duin is een onvergetelijke ervaring.
+          Ontspan, geniet van de prachtige natuur, beleef avontuurlijke activiteiten en maak mooie herinneringen met je dierbaren. 
+          Boek vandaag nog jouw droomvakantie en geniet van een geweldige tijd in ons park. We heten je van harte welkom!
+       </b> </p>
+        
+    </div>
 </div>
 
-<div class="footer">
-  <p>&copy; 2023 Bungalowpark. Alle rechten voorbehouden.</p>
-</div>
+
+
 </body>
 {% endblock %}
 

@@ -6,25 +6,17 @@ body {
 
     
 .header {
-  background-color: #e4b37d;
-  color: #fff;
+  background-size: cover;
   padding: 20px;
+  color: #e4b37d;
+  width: 100%;
   text-align: center;
+  font-size: x-large;
 }
     
-.content {
-  max-width: 800px;
-  margin: 20px auto;
-  padding: 20px;
-}
-    
-.footer {
-  background-color: #333;
-  color: #fff;
-  padding: 10px;
-  text-align: center;
 
-}
+    
+
 .welkom {
   float: right;
   padding: 12px;
@@ -288,6 +280,44 @@ body {
   top: 9%;
 }
 
+.box5_img {
+
+  border-radius: 20px;
+  position: absolute;
+  width: 25%;
+  height: 85%;
+  left: 3%;
+  top: 9%;
+}
+
+.box5_in {
+  box-sizing: border-box;
+  
+  position: absolute;
+  width: 55%;
+  height: 85%;
+  border: 1px solid #CC8454;
+  border-radius: 20px;
+  margin-left: 40%;
+  margin-top: 3.5%;
+  color: white;
+  text-align: center;
+  font-size: large;
+
+
+}
+.box5 {
+  border-radius: 20px;
+  position: absolute;
+  width: 90%;
+  height: 65%;
+  
+  
+  background: #E4B37D;
+  border-radius: 20px;
+  margin-left: 3%;
+
+}
 
 table {
   border-collapse: collapse;
@@ -303,3 +333,5 @@ th, td {
 th {
   background-color: #f2f2f2;
 }
+
+* {box-sizing:border-box}
