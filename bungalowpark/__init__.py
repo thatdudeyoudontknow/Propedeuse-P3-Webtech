@@ -2,10 +2,14 @@ import os
 from flask import Flask, render_template, redirect, request, url_for, flash, abort
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
+# from flask_login import LoginManager, UserMixin, login_required
+# from flask_bcrypt import Bcrypt
+from flask_wtf import FlaskForm
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user 
-from datetime import datetime
-from werkzeug.urls import url_parse
-from flask_login import current_user
+from datetime import datetime, date
+from werkzeug.urls import url_parse 
+from werkzeug.security import generate_password_hash, check_password_hash
+
 
 app = Flask(__name__)
 
@@ -23,7 +27,7 @@ db = SQLAlchemy(app)
 Migrate(app, db)
 
 from bungalowpark.models import BungalowType ,Bungalow, User, Boeking 
-from bungalowpark.forms import LoginForm, Registratieformulier, BoekingForm
+from bungalowpark.forms import LoginForm, RegistrationForm, BoekingForm
 
 @app.route('/')
 def index():
@@ -66,9 +70,11 @@ def login():
     return render_template('login.html', form=form) 
 
 
+
+
 @app.route('/register', methods=['GET', 'POST'])
 def register():
-    form = Registratieformulier()
+    form = RegistrationForm()
     if form.validate_on_submit():
         user_email = User.query.filter_by(email=form.email.data).first()
         user_username = User.query.filter_by(username=form.username.data).first()
@@ -95,25 +101,34 @@ def register():
     return render_template('register.html', form=form)
 
 
-
 @app.route('/1reserveringspagina', methods=['GET', 'POST'])
 @login_required
 def reserveer():
     form = BoekingForm()
+    guser = LoginForm()
     if form.validate_on_submit():
-        boeking = Boeking(bungalowID=form.bungalowID.data,
-                          email=current_user.email,
-                          startdatum=form.startdatum.data,
-                          einddatum=form.einddatum.data)
+        Boeking_bungalowID = Boeking.query.filter_by(bungalowID=form.bungalowID.data).first()
+        Boeking_startdatum = Boeking.query.filter_by(startdatum=form.startdatum.data).first()
+        Boeking_einddatum = Boeking.query.filter_by(einddatum=form.startdatum.data).first()
+        user = User.query.filter_by(email=guser.email.data).first()
         
-        db.session.add(boeking)
-        db.session.commit()
+        if user is not None and user.check_password(form.password.data):
 
-        flash(u'U heeft met succes uw bungalow geboekt', 'success')
-        return redirect(url_for('accomidatiepagina'))
+            if user:
+                boeking = Boeking(bungalowID=form.bungalowID.data,
+                    email=guser.email.data,
+                    startdatum=form.startdatum.data,
+                    einddatum=form.einddatum.data)
+            else:
+                flash(u'email is niet correct', 'warning')
 
-    return render_template('1reserveringspagina.html', name=current_user, form=form)
+            db.session.add(boeking)
+            db.session.commit()
 
+            flash(u'u heeft met succes uw bungalow geboekt')
+            return redirect(url_for('accomidatiepagina'))
+
+    return render_template('1reserveringspagina.html', name=current_user, form=form, guser=guser)
 
 
 @app.route('/gebruiker')
@@ -152,8 +167,33 @@ def update_boeking():
         else:
             abort(403)  # Return a Forbidden error
     else:
-        return flash(u'Boeking ID is niet bekend', 'warning')
+        return redirect('/1accomidatiepagina')
 
+
+@app.route('/ww_vergetenpost', methods=['POST'])
+def ww_vergetenpost():   
+    email = request.form.get('email')
+    code = request.form.get('code')
+    new_password = request.form.get('new_password')
+
+    user = User.query.filter_by(email=email).first()
+
+    if user:
+        if code == '3269':
+            user.password_hash = generate_password_hash(new_password)
+            # Commit the changes to the database
+            db.session.commit()
+            # Redirect the user to a relevant page
+            return redirect('/ww_vergeten')
+        else:
+            abort(403)  # Return a Forbidden error
+    else:
+        flash(u'email is niet bekend', 'warning')
+
+    
+@app.route('/ww_vergeten')
+def ww_vergeten():
+        return render_template('ww_vergeten.html',)
 
 
 @app.route('/1accomidatiepagina')
@@ -197,8 +237,9 @@ def over_ons_pagina():
 def reserveringspagina():
     return render_template('1reserveringspagina.html',  name=current_user)
 
+
 @app.route('/test')
 def test():
-    selected_option = '1'
+    selected_option = '1'#request.form['option']
     options = ["Action", "Another action", "Something else here"]
     return render_template('test.html', options=options, selected_option=selected_option)
