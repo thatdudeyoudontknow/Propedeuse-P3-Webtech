@@ -8,7 +8,6 @@ from werkzeug.urls import url_parse
 from flask_login import current_user
 
 app = Flask(__name__)
-
 app.config['SECRET_KEY'] = 'X11gc3N5hb78RGyKY4qk5qHZ8aqC4Ch7'
 
 basedir = os.path.abspath(os.path.dirname(__file__))

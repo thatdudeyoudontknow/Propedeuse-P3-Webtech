@@ -7,37 +7,6 @@ from flask_login import UserMixin
 def load_user(user_id):
     return User.query.get(user_id)
 
-class Bungalow(db.Model):
-
-    __tablename__ = 'bungalows'
-
-    id = db.Column(db.Integer(),primary_key = True)
-    naam = db.Column(db.String(50), nullable=False, unique=True, index=True)
-    typeID = db.Column(db.Integer(),db.ForeignKey('type.id'))
-    boeking = db.relationship('Boeking', backref='bungalow' ,uselist=False)
-
-    def __init__(self,naam,typeID):
-        self.naam = naam
-        self.typeID = typeID
-    
-    def __repr__(self):
-        return f"De naam {self.naam} en het type is  { self.bungalowType.aantalPersonen}"
-
-class BungalowType(db.Model):
-
-    __tablename__ = 'type'
-
-    id = db.Column(db.Integer(),primary_key= True)
-    aantalPersonen = db.Column(db.Integer(), nullable=False )
-    weekprijs = db.Column(db.Numeric(10,2), nullable=False)
-    bungalow = db.relationship('Bungalow',backref='bungalowType',uselist=False)
-
-    def __init__(self,aantalPersonen,weekprijs):
-        self.aantalPersonen = aantalPersonen
-        self.weekprijs = weekprijs
-
-    def __repr__(self):
-        return f"Dit type heeft plaats voor {self.aantalPersonen} personen en weekprijs is {self.weekprijs} "
 
 class User(db.Model,UserMixin):
 
@@ -91,7 +60,37 @@ class Boeking(db.Model):
     def __repr__(self):
         return f"de boeking is gedaan bij {self.userID} voor week  {self.startdatum}. De bungalow is {self.bungalowID}"
     
+class Bungalow(db.Model):
 
+    __tablename__ = 'bungalows'
+
+    id = db.Column(db.Integer(),primary_key = True)
+    naam = db.Column(db.String(50), nullable=False, unique=True, index=True)
+    typeID = db.Column(db.Integer(),db.ForeignKey('type.id'))
+    boeking = db.relationship('Boeking', backref='bungalow' ,uselist=False)
+
+    def __init__(self,naam,typeID):
+        self.naam = naam
+        self.typeID = typeID
+    
+    def __repr__(self):
+        return f"De naam {self.naam} en het type is  { self.bungalowType.aantalPersonen}"
+
+class BungalowType(db.Model):
+
+    __tablename__ = 'type'
+
+    id = db.Column(db.Integer(),primary_key= True)
+    aantalPersonen = db.Column(db.Integer(), nullable=False )
+    weekprijs = db.Column(db.Numeric(10,2), nullable=False)
+    bungalow = db.relationship('Bungalow',backref='bungalowType',uselist=False)
+
+    def __init__(self,aantalPersonen,weekprijs):
+        self.aantalPersonen = aantalPersonen
+        self.weekprijs = weekprijs
+
+    def __repr__(self):
+        return f"Dit type heeft plaats voor {self.aantalPersonen} personen en weekprijs is {self.weekprijs} "
 
 with app.app_context():
     db.create_all()
