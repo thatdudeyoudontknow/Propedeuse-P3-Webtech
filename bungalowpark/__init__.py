@@ -12,7 +12,6 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 
 app = Flask(__name__)
-
 app.config['SECRET_KEY'] = 'X11gc3N5hb78RGyKY4qk5qHZ8aqC4Ch7'
 
 basedir = os.path.abspath(os.path.dirname(__file__))
