@@ -95,6 +95,8 @@ def register():
     return render_template('register.html', form=form)
 
 
+from datetime import datetime, timedelta
+
 @app.route('/1reserveringspagina', methods=['GET', 'POST'])
 @login_required
 def reserveer():
@@ -107,17 +109,23 @@ def reserveer():
         # Retrieve the tent object from the database using the selected ID
         tent = Tent.query.get(tent_id)
 
-        from datetime import datetime
+        startdatum = datetime.strptime(form.startdatum.data, '%Y-%m-%d').date()
+        einddatum = datetime.strptime(form.einddatum.data, '%Y-%m-%d').date()
 
+        # Check if the start date is at least 7 days from now
+        min_startdatum = datetime.now().date() + timedelta(days=7)
+        if startdatum < min_startdatum:
+            flash(u'De startdatum moet minimaal 7 dagen in de toekomst liggen', 'error')
+            return redirect(url_for('reserveer'))
 
+        # Check if there is at least 1 day in between the start and end dates
+        if (einddatum - startdatum).days < 1:
+            flash(u'Er moet minimaal 1 dag tussen de start- en einddatum liggen', 'error')
+            return redirect(url_for('reserveer'))
 
-        startdatum = datetime.strptime(form.startdatum.data, '%d/%m/%Y').date()   
-        einddatum = datetime.strptime(form.einddatum.data, '%d/%m/%Y').date()
-        # Create a new Boeking instance with the tent ID and other form data
         boeking = Boeking(bungalowID="1", tent_omschrijving=tent.omschrijving,
                           startdatum=startdatum, einddatum=einddatum, userID=current_user.id)
 
-        # Save the new Boeking instance to the database
         db.session.add(boeking)
         db.session.commit()
 
@@ -125,6 +133,7 @@ def reserveer():
         return redirect(url_for('gebruiker'))
 
     return render_template('1reserveringspagina.html', name=current_user, form=form, tents=tents)
+
 
 
 
