@@ -168,10 +168,11 @@ def update_boeking():
                 flash(u'Je kunt de boeking niet meer wijzigen, omdat het minder dan 7 dagen voor de startdatum is.', 'warning')
                 return redirect ('/gebruiker')
         else:
-            return ("er ging wat fout, probeer opnieuw")
+            flash ("er ging wat fout, probeer opnieuw")
+            return redirect ('/gebruiker')
     else:
-        return flash(u'Boeking ID is niet bekend', 'warning')
-
+        flash(u'Boeking ID is niet bekend', 'warning')
+        return redirect ('/gebruiker')
 
 
 
@@ -221,3 +222,23 @@ def test():
     selected_option = '1'
     options = ["Action", "Another action", "Something else here"]
     return render_template('test.html', options=options, selected_option=selected_option)
+
+@app.route('/delete_boeking/<int:boeking_id>', methods=['GET', 'POST'])
+@login_required
+def delete_boeking(boeking_id):
+    boeking = Boeking.query.get(boeking_id)
+
+    if boeking:
+        # Check if the logged-in user owns the booking
+        if current_user.id == boeking.userID:
+            # Delete the booking from the database
+            db.session.delete(boeking)
+            db.session.commit()
+
+            flash(u'De boeking is succesvol verwijderd.', 'success')
+        else:
+            flash(u'Je hebt geen toestemming om deze boeking te verwijderen.', 'warning')
+    else:
+        flash(u'Boeking ID is niet bekend.', 'warning')
+
+    return redirect(url_for('gebruiker'))

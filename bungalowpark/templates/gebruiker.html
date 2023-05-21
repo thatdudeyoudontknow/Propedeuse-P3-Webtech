@@ -15,19 +15,22 @@
             <th>Bungalow type</th>
             <th>startdatum</th>            
             <th>einddatum</th>
-            
+            <th>Acties</th>
         </tr>
     {% for item in bungID %}
     <tr>
-    <td>{{ item.id }}</td>
-    <td>{{ item.tent_omschrijving }}</td>
-    <td>{{ item.startdatum }}</td>
-    <td>{{ item.einddatum }}</td>
+        <td>{{ item.id }}</td>
+        <td>{{ item.tent_omschrijving }}</td>
+        <td>{{ item.startdatum.strftime('%d-%m-%Y')  }}</td>
+        <td>{{ item.einddatum.strftime('%d-%m-%Y') }}</td>
+        <td>
+            <a href="{{ url_for('delete_boeking', boeking_id=item.id) }}" onclick="return confirm('Weet je zeker dat je deze boeking wilt verwijderen?')">Verwijder</a>
+        </td>
     </tr>
     {% endfor %}
     </table>
-
 </ul>
+
 <h1>pas uw boeking aan </h1>
 <form action="/update_boeking" method="POST">
     <input type="text" name="boeking_id" placeholder="Boekingnummer" required>
@@ -35,5 +38,6 @@
     <input type="date" name="einddatum" placeholder="Einddatum" required>
     <button type="submit">Update</button>
   </form>
+
 
 {% endblock %}
