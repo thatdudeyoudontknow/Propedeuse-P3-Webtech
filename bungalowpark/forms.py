@@ -30,7 +30,7 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Inloggen')
 
 class BoekingForm(FlaskForm):
-    bungalowID = StringField('bungalowID', validators=[DataRequired()])
+    
     startdatum =  StringField('startdatum', validators=[DataRequired()])
     einddatum =  StringField('einddatum', validators=[DataRequired()])
     submit = SubmitField('Boek NU!')

@@ -42,56 +42,45 @@ class User(db.Model,UserMixin):
 
 
 class Boeking(db.Model):
-
     __tablename__ = 'reserveringen'
+    id = db.Column(db.Integer(), primary_key=True)
+    bungalowID = db.Column(db.Integer(), nullable=False)
+    tent_omschrijving = db.Column(db.String(100), nullable=False)
+    startdatum = db.Column(db.Date(), nullable=False)
+    einddatum = db.Column(db.Date(), nullable=False)
+    userID = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
-    id = db.Column(db.Integer(),primary_key= True)
-    bungalowID =  db.Column(db.Integer(), db.ForeignKey('bungalows.id'), nullable=False)
-    email = db.Column(db.Integer(), nullable=False)
-    startdatum = db.Column(db.Integer(), nullable=False)
-    einddatum = db.Column(db.Integer(), nullable=False)
-    
-    def __init__(self,startdatum,email,einddatum,bungalowID):
+    def __init__(self, bungalowID, tent_omschrijving, startdatum, einddatum, userID):
         self.bungalowID = bungalowID
-        self.email = email
+        self.tent_omschrijving = tent_omschrijving
         self.startdatum = startdatum
         self.einddatum = einddatum
+        self.userID = userID
 
     def __repr__(self):
-        return f"de boeking is gedaan bij {self.userID} voor week  {self.startdatum}. De bungalow is {self.bungalowID}"
+        return f"Boeking {self.id}: bungalow {self.bungalowID}, tent {self.tent_omschrijving}, startdatum {self.startdatum}, einddatum {self.einddatum}"
+
     
-class Bungalow(db.Model):
-
-    __tablename__ = 'bungalows'
-
-    id = db.Column(db.Integer(),primary_key = True)
-    naam = db.Column(db.String(50), nullable=False, unique=True, index=True)
-    typeID = db.Column(db.Integer(),db.ForeignKey('type.id'))
-    boeking = db.relationship('Boeking', backref='bungalow' ,uselist=False)
-
-    def __init__(self,naam,typeID):
-        self.naam = naam
-        self.typeID = typeID
     
+
+
+class Tent(db.Model):
+    __tablename__ = 'tenten'
+
+    id = db.Column(db.Integer(), primary_key=True)
+    omschrijving = db.Column(db.String(100), nullable=False)
+    aantal_personen = db.Column(db.Integer(), nullable=False)
+    prijs_per_dag = db.Column(db.Float(), nullable=False)
+
+    def __init__(self, omschrijving, aantal_personen, prijs_per_dag):
+        self.omschrijving = omschrijving
+        self.aantal_personen = aantal_personen
+        self.prijs_per_dag = prijs_per_dag
+
     def __repr__(self):
-        return f"De naam {self.naam} en het type is  { self.bungalowType.aantalPersonen}"
-
-class BungalowType(db.Model):
-
-    __tablename__ = 'type'
-
-    id = db.Column(db.Integer(),primary_key= True)
-    aantalPersonen = db.Column(db.Integer(), nullable=False )
-    weekprijs = db.Column(db.Numeric(10,2), nullable=False)
-    bungalow = db.relationship('Bungalow',backref='bungalowType',uselist=False)
-
-    def __init__(self,aantalPersonen,weekprijs):
-        self.aantalPersonen = aantalPersonen
-        self.weekprijs = weekprijs
-
-    def __repr__(self):
-        return f"Dit type heeft plaats voor {self.aantalPersonen} personen en weekprijs is {self.weekprijs} "
-
+        return f"Tent {self.id}: {self.omschrijving}"
+    
+    
 with app.app_context():
     db.create_all()
 

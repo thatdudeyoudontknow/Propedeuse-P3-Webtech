@@ -6,6 +6,7 @@ from flask_login import LoginManager, login_user, login_required, logout_user, c
 from datetime import datetime
 from werkzeug.urls import url_parse
 from flask_login import current_user
+from datetime import datetime, timedelta
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'X11gc3N5hb78RGyKY4qk5qHZ8aqC4Ch7'
@@ -21,13 +22,13 @@ login_manager.login_view = "login"
 db = SQLAlchemy(app)
 Migrate(app, db)
 
-from bungalowpark.models import BungalowType ,Bungalow, User, Boeking 
+from bungalowpark.models import  User, Boeking, Tent 
 from bungalowpark.forms import LoginForm, Registratieformulier, BoekingForm
 
 @app.route('/')
 def index():
-    bungalows = Bungalow.query.all()
-    return render_template('home.html',  name=current_user, bungalows=bungalows)
+
+    return render_template('home.html',  name=current_user)
 
 
 @app.route('/logout')
@@ -94,64 +95,83 @@ def register():
     return render_template('register.html', form=form)
 
 
-
 @app.route('/1reserveringspagina', methods=['GET', 'POST'])
 @login_required
 def reserveer():
     form = BoekingForm()
+    tents = Tent.query.all()
     if form.validate_on_submit():
-        boeking = Boeking(bungalowID=form.bungalowID.data,
-                          email=current_user.email,
-                          startdatum=form.startdatum.data,
-                          einddatum=form.einddatum.data)
-        
+        # Get the selected tent ID from the form
+        tent_id = request.form.get('tent')
+
+        # Retrieve the tent object from the database using the selected ID
+        tent = Tent.query.get(tent_id)
+
+        from datetime import datetime
+
+
+
+        startdatum = datetime.strptime(form.startdatum.data, '%d/%m/%Y').date()   
+        einddatum = datetime.strptime(form.einddatum.data, '%d/%m/%Y').date()
+        # Create a new Boeking instance with the tent ID and other form data
+        boeking = Boeking(bungalowID="1", tent_omschrijving=tent.omschrijving,
+                          startdatum=startdatum, einddatum=einddatum, userID=current_user.id)
+
+        # Save the new Boeking instance to the database
         db.session.add(boeking)
         db.session.commit()
 
         flash(u'U heeft met succes uw bungalow geboekt', 'success')
-        return redirect(url_for('accomidatiepagina'))
+        return redirect(url_for('gebruiker'))
 
-    return render_template('1reserveringspagina.html', name=current_user, form=form)
+    return render_template('1reserveringspagina.html', name=current_user, form=form, tents=tents)
+
 
 
 
 @app.route('/gebruiker')
 def gebruiker():
-    log_email = current_user.email
-    # Retrieve data from the database
 
-    bungID = Boeking.query.filter_by(email=log_email).all()
+    bungID = Boeking.query.filter_by(userID=current_user.id).all()
 
     # Render the HTML template and pass the data
     return render_template('gebruiker.html',  bungID=bungID ,name=current_user )
+
+
 
 @app.route('/update_boeking', methods=['POST'])
 def update_boeking():
     # Get form data
     boeking_id = request.form.get('boeking_id')
-    startdatum = request.form.get('startdatum')
-    einddatum = request.form.get('einddatum')
+    startdatum = datetime.strptime(request.form.get('startdatum'), '%Y-%m-%d').date()
+    einddatum = datetime.strptime(request.form.get('einddatum'), '%Y-%m-%d').date()
 
     # Retrieve the Boeking record from the database
     boeking = Boeking.query.get(boeking_id)
 
-
     if boeking:
         # Check if the logged-in user owns the Boeking record
-        if current_user.email == boeking.email:
-            # Update the Boeking record
-            boeking.startdatum = startdatum
-            boeking.einddatum = einddatum
+        if current_user.id == boeking.userID:
+            # Check if the startdatum is at least 7 days in the future
+            today = datetime.now().date()
+            if startdatum >= today + timedelta(days=7):
+                # Update the Boeking record
+                boeking.startdatum = startdatum
+                boeking.einddatum = einddatum
 
-            # Commit the changes to the database
-            db.session.commit()
+                # Commit the changes to the database
+                db.session.commit()
 
-            # Redirect the user to a relevant page
-            return redirect('/gebruiker')
+                # Redirect the user to a relevant page
+                return redirect('/gebruiker')
+            else:
+                flash(u'Je kunt de boeking niet meer wijzigen, omdat het minder dan 7 dagen voor de startdatum is.', 'warning')
+                return redirect ('/gebruiker')
         else:
-            abort(403)  # Return a Forbidden error
+            return ("er ging wat fout, probeer opnieuw")
     else:
         return flash(u'Boeking ID is niet bekend', 'warning')
+
 
 
 

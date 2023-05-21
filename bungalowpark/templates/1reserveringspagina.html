@@ -4,7 +4,7 @@
 {% for message in get_flashed_messages() %}
 <div class="alert alert-warning">
     <button type="button" class="close" data-dismiss="alert">&times;</button>
-{{ message }}
+    {{ message }}
 {% endfor %}
 
 <div class="container mt-2">
@@ -13,18 +13,24 @@
             <form method="POST">
                 {{ form.hidden_tag() }}
                 <div class="mb-2">
-                {{ form.bungalowID.label(class="form-label") }} 
-                {{ form.bungalowID(class="form-control") }}
+                    <label class="form-label">Tent</label>
+                    <select class="form-control" name="tent">
+                        {% for tent in tents %}
+                            <option value="{{ tent.id }}">{{ tent.omschrijving }} - nachtprijs: {{ tent.prijs_per_dag }} - personen: {{ tent.aantal_personen }}</option>
+                        {% endfor %}
+                    </select>
                 </div>
                 <div class="mb-2">
-                {{ form.startdatum.label(class="form-label") }} 
-                {{ form.startdatum(class="form-control") }}
+                    {{ form.startdatum.label(class="form-label") }} 
+                    {{ form.startdatum(class="form-control") }}
                 </div>
                 <div class="mb-2">
-                {{ form.einddatum.label(class="form-label") }} 
-                {{ form.einddatum(class="form-control") }}
+                    {{ form.einddatum.label(class="form-label") }} 
+                    {{ form.einddatum(class="form-control") }}
                 </div>
-                {{ form.submit(class="btn btn-primary") }}
+                <div class="mb-2">
+                    {{ form.submit(class="btn btn-primary") }}
+                </div>
             </form>
         </div>
     </div>

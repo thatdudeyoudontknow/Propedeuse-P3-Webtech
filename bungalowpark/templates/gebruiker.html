@@ -1,13 +1,18 @@
 {% extends "base.html" %}
 {% block content %}
-
+{% for message in get_flashed_messages() %}
+<div class="alert alert-warning">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    {{ message }}
+</div>
+{% endfor %}
 <h1>Uw boekingen</h1>
 
 <ul>
     <table>
         <tr>
             <th>Boekingnummer</th>
-            <th>Bungalow ID</th>
+            <th>Bungalow type</th>
             <th>startdatum</th>            
             <th>einddatum</th>
             
@@ -15,7 +20,7 @@
     {% for item in bungID %}
     <tr>
     <td>{{ item.id }}</td>
-    <td>{{ item.bungalowID }}</td>
+    <td>{{ item.tent_omschrijving }}</td>
     <td>{{ item.startdatum }}</td>
     <td>{{ item.einddatum }}</td>
     </tr>
@@ -25,7 +30,7 @@
 </ul>
 <h1>pas uw boeking aan </h1>
 <form action="/update_boeking" method="POST">
-    <input type="text" name="boeking_id" placeholder="Boeking ID" required>
+    <input type="text" name="boeking_id" placeholder="Boekingnummer" required>
     <input type="date" name="startdatum" placeholder="Startdatum" required>
     <input type="date" name="einddatum" placeholder="Einddatum" required>
     <button type="submit">Update</button>
