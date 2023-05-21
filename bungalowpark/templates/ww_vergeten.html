@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style_login.css') }}">
+{% for message in get_flashed_messages() %}
+<div class="alert alert-warning">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+{{ message }}
+{% endfor %}
+<a class="ww_vergetencss">
+<div>Verificatie Code is 3269</div>
+<div>vul hier je email in:</div>
+<div>
+    <form method="POST" action="/ww_vergetenpost">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+        <label for="code">Verificatie Code:</label>
+        <input type="text" id="code" name="code" required>
+        <label for="new_password">Niew wachtwoord:</label>
+        <input type="password" id="new_password" name="new_password" required>
+        <button type="submit">Reset Password</button>
+      </form>
+</div>
+</a>
+{% endblock %}
+

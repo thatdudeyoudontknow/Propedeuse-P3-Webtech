@@ -5,6 +5,7 @@ from flask_migrate import Migrate
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user 
 from datetime import datetime
 from werkzeug.urls import url_parse
+from werkzeug.security import generate_password_hash
 from flask_login import current_user
 from datetime import datetime, timedelta
 
@@ -251,3 +252,28 @@ def delete_boeking(boeking_id):
         flash(u'Boeking ID is niet bekend.', 'warning')
 
     return redirect(url_for('gebruiker'))
+
+@app.route('/ww_vergetenpost', methods=['POST'])
+def ww_vergetenpost():   
+    email = request.form.get('email')
+    code = request.form.get('code')
+    new_password = request.form.get('new_password')
+
+    user = User.query.filter_by(email=email).first()
+
+    if user:
+        if code == '3269':
+            user.password_hash = generate_password_hash(new_password)
+            # Commit the changes to the database
+            db.session.commit()
+            # Redirect the user to a relevant page
+            return redirect('/login')
+        else:
+            abort(403)  # Return a Forbidden error
+    else:
+        flash(u'email is niet bekend', 'warning')
+
+    
+@app.route('/ww_vergeten')
+def ww_vergeten():
+        return render_template('ww_vergeten.html',)
