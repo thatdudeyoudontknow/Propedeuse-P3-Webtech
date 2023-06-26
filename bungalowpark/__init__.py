@@ -54,17 +54,24 @@ def login():
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
         if user is not None and user.check_password(form.password.data):
-            login_user(user)
-            flash(u'Succesvol ingelogd.', 'success')
-    
-            next = request.args.get('next')
-            if not next or url_parse(next).netloc != '':
-                next = url_for('index')
-            return redirect(url_parse(next).path)
-        
+            if user.username == 'admin':
+                # Password is correct for admin user, allow access
+                login_user(user)
+                flash(u'Successvol ingelogd als admin.', 'success')
+                return redirect(url_for('gebruiker'))
+            else:
+                # Password is correct for regular user, allow access
+                login_user(user)
+                flash(u'Successvol ingelogd.', 'success')
+
+                next = request.args.get('next')
+                if not next or url_parse(next).netloc != '':
+                    next = url_for('index')
+                return redirect(url_parse(next).path)
         else:
-            flash(u'U email of wachtwoord is niet correct.', 'warning')     
-    return render_template('login.html', form=form) 
+            flash(u'je email of gebruikersnaam is onjuist', 'warning')
+
+    return render_template('login.html', form=form)
 
 
 @app.route('/register', methods=['GET', 'POST'])

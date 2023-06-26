@@ -3,9 +3,14 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 
 
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(user_id)
+
+class Role(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), unique=True, nullable=False)
 
 
 class User(db.Model,UserMixin):
@@ -21,6 +26,9 @@ class User(db.Model,UserMixin):
     huisnummer = db.Column(db.Integer(), nullable=False)
     straat = db.Column(db.String(40), nullable=False)
     postcode = db.Column(db.String(6), nullable=False)
+    role_id = db.Column(db.Integer, db.ForeignKey('role.id'), nullable=False)
+    role = db.relationship('Role', backref=db.backref('users', lazy=True))
+
 
 
 
