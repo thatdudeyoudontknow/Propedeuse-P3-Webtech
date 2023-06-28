@@ -32,7 +32,7 @@
 </ul>
 
 <h1>pas boekingen aan </h1>
-<form action="/admin_boeking" method="POST">
+<form class="form-grid" action="/admin_boeking" method="POST">
     <input type="text" name="boeking_id" placeholder="Boekingnummer" required>
     <input type="date" name="startdatum" placeholder="Startdatum" required>
     <input type="date" name="einddatum" placeholder="Einddatum" required>
@@ -69,11 +69,12 @@
 </ul>
 
 <h1>pas tenten aan </h1>
-<form action="/admin_tenten" method="POST">
+<form class="form-grid" action="/admin_tenten" method="POST">
     <input type="text" name="id" placeholder="id" required>
     <input type="text" name="naam" placeholder="naam" required>
     <input type="text" name="aantal_personen" placeholder="aantal personen" required>
-    <input type="text" name="prijs_per_dag" placeholder="prijs per dag" required>     <textarea name="omschrijving" placeholder="Omschrijving" rows="10" cols="50" required></textarea> 
+    <input type="text" name="prijs_per_dag" placeholder="prijs per dag" required> 
+    <textarea name="omschrijving" placeholder="Omschrijving" rows="15" cols="50" required></textarea> 
     <button type="submit">Update</button>
   </form>
   <br>

@@ -400,3 +400,43 @@ def ww_vergetenpost():
 def ww_vergeten():
         return render_template('ww_vergeten.html',)
 
+
+@app.route('/user')
+@login_required
+def user():
+    user = User.query.filter_by(id=current_user.id).first()
+    return render_template('user.html', user=user, name=current_user)
+
+ 
+
+@app.route('/update_user',methods=['POST'] )
+@login_required
+def update_user():
+ # Get form data
+    email = request.form.get('email')
+    username = request.form.get('username')
+    woonplaats = request.form.get('woonplaats')
+    huisnummer = request.form.get('huisnummer')
+    # toevoeging = request.form.get('toevoeging')
+    straat = request.form.get('straat')
+    postcode = request.form.get('postcode')
+
+    guser = User.query.filter_by(id=current_user.id).first()
+
+    if guser:
+
+        guser.email = email
+        guser.username = username
+        guser.woonplaats = woonplaats
+        guser.huisnummer = huisnummer
+        # guser.toevoeging = toevoeging
+        guser.straat = straat
+        guser.postcode = postcode
+
+        db.session.commit()
+
+        flash(u'uw gegevens zijn succesvol veranderd', 'warning')
+        return redirect('/user')
+    else:
+        flash(u'Er is iets fout gegaan', 'warning')
+        return redirect('/user')

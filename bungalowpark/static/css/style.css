@@ -331,10 +331,37 @@ th, td {
 }
 
 th {
-  background-color: #f2f2f2;
+  background-color: #f5b67383;
 }
 
 * {box-sizing:border-box}
+
+/* .form input {
+  padding: 5px;
+} */
+
+.form button {
+  padding: 10px;
+  border: none;
+  background-color: #E4B37D;  
+  color: #fff;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.form button:hover {
+  background-color: #cc8454;
+}
+
+.form input[type="text"],
+.form input[type="date"] {
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  width: 13%; /* Adjust the width as needed */
+  box-sizing: border-box;
+}
 
 .ww_button {
   display: inline-block;
@@ -387,3 +414,80 @@ th {
   color: white;
 
 }
+
+/* -------------------------------------------------------------------------- */
+/* Center the form */
+.form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* Style the form grid */
+.form-grid {
+  display: grid;
+  gap: 10px;
+  max-width: 400px;
+  background-color: #f5b67383;
+  padding: 20px;
+  border-radius: 5px;
+  margin: 2% auto; /* Center the button horizontally */
+}
+
+/* Style the form labels */
+.form-grid label {
+  display: block;
+  font-weight: bold;
+}
+
+/* Style the form inputs */
+.form-grid input[type="text"],
+.form-grid input[type="date"],
+.form-grid textarea {
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  width: 100%; /* Adjust the width as needed */
+  box-sizing: border-box;
+  text-decoration: none;
+  font-family: Arial, Helvetica, sans-serif;
+
+}
+/* Style the submit button */
+.form-grid button {
+  padding: 10px;
+  border: none;
+  background-color: #E4B37D;  
+  color: #fff;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: .85vmax;
+}
+
+.form-grid button:hover {
+  background-color: #cc8454;
+}
+
+.ww_knop {
+  padding: 10px;
+  border: none;
+  background-color: #E4B37D;  
+  color: #fff;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+  margin: 2% auto; /* Center the button horizontally */
+  width: 100%;
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+  
+}
+
+.ww_knop:hover {
+  background-color: #cc8454;
+}
+
+
