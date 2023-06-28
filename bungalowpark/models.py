@@ -3,18 +3,12 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin
 
 
-
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(user_id)
 
-class Role(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50), unique=True, nullable=False)
 
-
-class User(db.Model,UserMixin):
-
+class User(db.Model, UserMixin):
     __tablename__ = 'users'
 
     id = db.Column(db.Integer(),primary_key= True)
@@ -26,13 +20,11 @@ class User(db.Model,UserMixin):
     huisnummer = db.Column(db.Integer(), nullable=False)
     straat = db.Column(db.String(40), nullable=False)
     postcode = db.Column(db.String(6), nullable=False)
-    role_id = db.Column(db.Integer, db.ForeignKey('role.id'), nullable=False)
-    role = db.relationship('Role', backref=db.backref('users', lazy=True))
+    role = db.Column(db.String(20), nullable=False, default='user')
 
 
 
-
-    def __init__(self, email, username,password, woonplaats,huisnummer,straat,postcode):
+    def __init__(self, email, username,password, woonplaats,huisnummer,straat,postcode,role='user'):
         self.email = email
         self.username = username
         self.password_hash = generate_password_hash(password)
@@ -40,6 +32,7 @@ class User(db.Model,UserMixin):
         self.huisnummer = huisnummer
         self.straat = straat
         self.postcode = postcode
+        self.role = role
 
 
     def check_password(self, password):
@@ -47,6 +40,8 @@ class User(db.Model,UserMixin):
 
     def __repr__(self):
         return f"Welkom, {self.username}"
+
+
 
 
 class Boeking(db.Model):
@@ -76,11 +71,13 @@ class Tent(db.Model):
     __tablename__ = 'tenten'
 
     id = db.Column(db.Integer(), primary_key=True)
-    omschrijving = db.Column(db.String(100), nullable=False)
+    naam = db.Column(db.String(100), nullable=False)
+    omschrijving = db.Column(db.String(1000), nullable=False)
     aantal_personen = db.Column(db.Integer(), nullable=False)
     prijs_per_dag = db.Column(db.Float(), nullable=False)
 
-    def __init__(self, omschrijving, aantal_personen, prijs_per_dag):
+    def __init__(self,naam, omschrijving, aantal_personen, prijs_per_dag):
+        self.naam = naam
         self.omschrijving = omschrijving
         self.aantal_personen = aantal_personen
         self.prijs_per_dag = prijs_per_dag

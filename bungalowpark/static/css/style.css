@@ -321,7 +321,7 @@ body {
 
 table {
   border-collapse: collapse;
-  width: 70%;
+  width: 99%;
   align-self: center;
 }
 
@@ -360,5 +360,30 @@ th {
   margin-left: 25%;
   margin-top: 2%;
   border-radius: 5px;
+
+}
+
+.error {
+  text-align: center;
+  font-size: 2.5vmax;
+  margin-top: 3em;
+  text-rendering: bold;
+  position: absolute;
+  top: 25%;
+  left: 40%;
+  transform: translate(-30%, -50%);
+}
+
+
+.notfoundcontainer{
+  position: relative;
+  text-align: center;
+  color: white;
+}
+
+.notfoundimg{
+  position: relative;
+  text-align: center;
+  color: white;
 
 }

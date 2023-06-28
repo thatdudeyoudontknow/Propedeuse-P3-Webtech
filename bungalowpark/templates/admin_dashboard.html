@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block content %}
+{% for message in get_flashed_messages() %}
+<div class="alert alert-warning">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    {{ message }}
+</div>
+{% endfor %}
+<h1>Alle boekingen</h1>
+
+<ul>
+    <table>
+        <tr>
+            <th>Boekingnummer</th>
+            <th>Bungalow type</th>
+            <th>startdatum</th>            
+            <th>einddatum</th>
+            <th>Acties</th>
+        </tr>
+    {% for item in bungID %}
+    <tr>
+        <td>{{ item.id }}</td>
+        <td>{{ item.tent_omschrijving }}</td>
+        <td>{{ item.startdatum.strftime('%d-%m-%Y')  }}</td>
+        <td>{{ item.einddatum.strftime('%d-%m-%Y') }}</td>
+        <td>
+            <a href="{{ url_for('delete_boeking', boeking_id=item.id) }}" onclick="return confirm('Weet je zeker dat je deze boeking wilt verwijderen?')">Verwijder</a>
+        </td>
+    </tr>
+    {% endfor %}
+    </table>
+</ul>
+
+<h1>pas boekingen aan </h1>
+<form action="/admin_boeking" method="POST">
+    <input type="text" name="boeking_id" placeholder="Boekingnummer" required>
+    <input type="date" name="startdatum" placeholder="Startdatum" required>
+    <input type="date" name="einddatum" placeholder="Einddatum" required>
+    <button type="submit">Update</button>
+  </form>
+  <br>
+  <b>LET OP!!</b> boekingen die hier aangepast worden, worden niet geconteroleerd of er 7 dagen tussen de huidige datum en de datum van de boeking is.
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+  <h1>Alle tenten</h1>
+  <ul>
+    <table>
+        <tr>
+            <th>id</th>
+            <th>naam</th>
+            <th>omschrijving</th>            
+            <th>aantal personen</th>
+            <th>prijs per dag</th>
+        </tr>
+    {% for item in bunginfo %}
+    <tr>
+        <td>{{ item.id }}</td>
+        <td>{{ item.naam }}</td>
+        <td>{{ item.omschrijving}}</td>
+        <td>{{ item.aantal_personen}}</td>
+        <td>{{ item.prijs_per_dag}}</td>
+    </tr>
+    {% endfor %}
+    </table>
+</ul>
+
+<h1>pas tenten aan </h1>
+<form action="/admin_tenten" method="POST">
+    <input type="text" name="id" placeholder="id" required>
+    <input type="text" name="naam" placeholder="naam" required>
+    <input type="text" name="aantal_personen" placeholder="aantal personen" required>
+    <input type="text" name="prijs_per_dag" placeholder="prijs per dag" required>     <textarea name="omschrijving" placeholder="Omschrijving" rows="10" cols="50" required></textarea> 
+    <button type="submit">Update</button>
+  </form>
+  <br>
+  <br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+{% endblock %}
