@@ -4,6 +4,21 @@ body {
 }
 
 
+.logo_site{
+  width: 20%;
+  height: 20%;
+  
+}
+.navigatiebar{
+  width: 100%;
+  background-color: #e4b37d;
+
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+
+}
     
 .header {
   background-size: cover;
@@ -33,20 +48,27 @@ body {
   overflow: auto;
 }
 
-.navbar a {
+
+.nav-link {
   float: left;
   padding: 12px;
   color: white;
   text-decoration: none;
   font-size: 17px;
 }
-
+.navbar2-nav{
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden
+}
 .navbar2-nav a {
   float: right;
   padding: 12px;
   color: white;
   text-decoration: none;
   font-size: 17px;
+  
 }
 
 .navbar b {
@@ -109,21 +131,24 @@ body {
   border-radius: 0;
   color: #6a6a6a;
   background-color: #f2f2f2;
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  text-align: center;
+  white-space: nowrap;
+  cursor: pointer;
+  color: #fff;
+  box-shadow: 0 0 0 0.01rem black;
+  border: none;
 }
 
-.alert .close {
-  color: #6a6a6a;
-  opacity: 1;
-}
 
-.alert .close:hover {
-  color: #6a6a6a;
-  opacity: 0.7;
-}
 
-.alert-warning {
-  border-left: 4px solid #c56e37;
-}
+
+
 
 .active {
   background-color: #c56e37;
@@ -334,24 +359,24 @@ th {
   background-color: #f2f2f2;
 }
 
-* {box-sizing:border-box}
+* {box-sizing:border-box;}
 
-
-.ww_button {
-  display: inline-block;
-  padding: 10px 20px;
-  background-color: #E4B37D;  
-  color: #fff;
-  text-decoration: none;
-  border-radius: 4px;
+/* .ww_button {
+  display: flex;
+  padding: 0.5rem 1rem;
+  background-color: #E4B37D;
+  color: #000;
+  border-radius: 0.25rem;
   transition: background-color 0.3s ease;
-  margin-left: 44.5%;
+  /* margin-left: 44.5%; */
+  /* margin-top: 2%; */
+  /* align-items: center; */
+  justify-content: center;
   margin-top: 2%;
-}
+  font-size: 0.5rem;
+} */
 
-.ww_button:hover {
-  background-color: #cc8454;
-}
+
 
 .ww_vergetencss {
   display: inline-block;
@@ -362,4 +387,27 @@ th {
   margin-top: 2%;
   border-radius: 5px;
 
+}
+
+
+.center-line {
+  position: fixed;
+  /* top: 50%; */
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 1px;
+  width: 100vw;
+  background-color: black;
+  z-index: 9999;
+}
+
+.center-line::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1px;
+  height: 100vh;
+  background-color: black;
 }

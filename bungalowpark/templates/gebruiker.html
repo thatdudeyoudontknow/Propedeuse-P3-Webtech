@@ -1,36 +1,55 @@
 {% extends "base.html" %}
 {% block content %}
-
+{% for message in get_flashed_messages() %}
+<div class="alert alert-warning">
+    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    {{ message }}
+</div>
+{% endfor %}
 <h1>Uw boekingen</h1>
 
 <ul>
     {% for item in bungID %}
     <table>
         <tr>
-            <th>nummer</th>
-            <th>Bungalow ID</th>
-            <th>startdatum</th>           
+            <th>Boekingnummer</th>
+            <th>Bungalow type</th>
+            <th>startdatum</th>            
             <th>einddatum</th>
-            
+            <th>Acties</th>
         </tr>
     <tr>
-    <td>{{ item.id }}</td>
-    <td>{{ item.bungalowID }}</td>
-    <td>{{ item.startdatum }}</td>
-    <td>{{ item.einddatum }}</td>
+        <td>{{ item.id }}</td>
+        <td>{{ item.tent_omschrijving }}</td>
+        <td>{{ item.startdatum.strftime('%d-%m-%Y')  }}</td>
+        <td>{{ item.einddatum.strftime('%d-%m-%Y') }}</td>
+        <td>
+            <a href="{{ url_for('delete_boeking', boeking_id=item.id) }}" onclick="return confirm('Weet je zeker dat je deze boeking wilt verwijderen?')">Verwijder</a>
+        </td>
     </tr>
+    {% endfor %}
+    {% for booking in bungID %}
+    <div class="booking-item">
+        <p>Booking ID: {{ booking.id }}</p>
+        <p>Start Date: {{ booking.startdatum }}</p>
+        <p>End Date: {{ booking.einddatum }}</p>
+        <p>Tent: {{ booking.tent_omschrijving }}</p>
+        <!-- Add more booking details as needed -->
 
-</table>
-{% endfor %}
+        <!-- Add a link or button to print the booking -->
+        <a href="{{ url_for('print_booking', booking_id=booking.id) }}" target="_blank">Print</a>
+    </div>
+    {% endfor %}
+    </table>
 </ul>
+
 <h1>pas uw boeking aan </h1>
 <form action="/update_boeking" method="POST">
-    <input type="text" name="boeking_id" placeholder="Boeking ID" required>
+    <input type="text" name="boeking_id" placeholder="Boekingnummer" required>
     <input type="date" name="startdatum" placeholder="Startdatum" required>
     <input type="date" name="einddatum" placeholder="Einddatum" required>
     <button type="submit">Update</button>
   </form>
-
 
 
 {% endblock %}
