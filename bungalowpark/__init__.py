@@ -27,7 +27,7 @@ db = SQLAlchemy(app)
 Migrate(app, db)
 
 from bungalowpark.models import  User, Boeking, Tent 
-from bungalowpark.forms import LoginForm, Registratieformulier, BoekingForm
+from bungalowpark.forms import LoginForm, RegistrationForm, BoekingForm
 from functools import wraps
 
 # Decorator function to check if the user is authenticated and query the bookings
@@ -163,13 +163,10 @@ def reserveer(heeft_boekingen):
         flash(u'U heeft met succes uw bungalow geboekt', 'success')
         return redirect(url_for('gebruiker'))
 
-    return render_template('1reserveringspagina.html', name=current_user, form=form, tents=tents, heeft_boekingen=heeft_boekingen)
 
 
-            flash(u'u heeft met succes uw bungalow geboekt')
-            return redirect(url_for('accomidatiepagina'))
 
-    return render_template('1reserveringspagina.html', name=current_user, form=form, guser=guser)
+    return render_template('1reserveringspagina.html', name=current_user, form=form, tents=tents)
 
 
 @app.route('/gebruiker')
@@ -228,30 +225,7 @@ def update_boeking():
         return redirect ('/gebruiker')
 
 
-@app.route('/ww_vergetenpost', methods=['POST'])
-def ww_vergetenpost():   
-    email = request.form.get('email')
-    code = request.form.get('code')
-    new_password = request.form.get('new_password')
 
-    user = User.query.filter_by(email=email).first()
-
-    if user:
-        if code == '3269':
-            user.password_hash = generate_password_hash(new_password)
-            # Commit the changes to the database
-            db.session.commit()
-            # Redirect the user to a relevant page
-            return redirect('/ww_vergeten')
-        else:
-            abort(403)  # Return a Forbidden error
-    else:
-        flash(u'email is niet bekend', 'warning')
-
-    
-@app.route('/ww_vergeten')
-def ww_vergeten():
-        return render_template('ww_vergeten.html',)
 
 
 @app.route('/1accomidatiepagina')
