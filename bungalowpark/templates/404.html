@@ -1,0 +1,15 @@
+
+{% extends "base.html" %}
+<!-- Exports header and navbar from header.html
+     or any file you want-->
+
+
+  {% block content %}
+    <div class="notfoundcontainer">
+      <img class="notfoundimg" width="1370em" src="{{ url_for('static', filename='img/Sad-Man-in-Server-Room-2-cropped.jpg') }}" >
+      <div class='error'><b>404</b><br>
+        deze pagina bestaat niet meer. <br>
+        Maak een keuze in het menu om terug te gaan
+      </div>
+    </div>
+  {% endblock %}

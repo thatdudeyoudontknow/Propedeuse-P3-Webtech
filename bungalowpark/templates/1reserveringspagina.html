@@ -17,7 +17,7 @@
                     <label class="form-label">Tent</label>
                     <select class="form-control" name="tent">
                         {% for tent in tents %}
-                            <option value="{{ tent.id }}">{{ tent.omschrijving }} - nachtprijs: {{ tent.prijs_per_dag }} - personen: {{ tent.aantal_personen }}</option>
+                            <option value="{{ tent.id }}">{{ tent.naam }}- nachtprijs: {{ tent.prijs_per_dag }} - personen: {{ tent.aantal_personen }}</option>
                         {% endfor %}
                     </select>
                 </div>

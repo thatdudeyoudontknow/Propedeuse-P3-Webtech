@@ -11,6 +11,7 @@ from werkzeug.urls import url_parse
 from werkzeug.security import generate_password_hash
 from flask_login import current_user
 from datetime import datetime, timedelta
+from functools import wraps
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'X11gc3N5hb78RGyKY4qk5qHZ8aqC4Ch7'
@@ -39,6 +40,39 @@ def check_user_bookings(f):
             heeft_boekingen = Boeking.query.filter_by(userID=current_user.id).first()
         return f(heeft_boekingen=heeft_boekingen, *args, **kwargs)
     return decorated_function
+
+# app name
+@app.errorhandler(404)
+  
+# inbuilt function which takes error as parameter
+def not_found(e):
+  
+# defining function
+  return render_template("404.html")
+
+
+def role_required(*roles):
+    def decorator(func):
+        @wraps(func)
+        def wrapper(*args, **kwargs):
+            if current_user.is_anonymous:
+                # Handle the case when the user is not logged in
+                return redirect(url_for('/'))
+
+
+            if 'admin' in roles and current_user.role != 'admin':
+                # Handle the case when the user is not an admin
+                return render_template('404.html'), 404
+
+            if 'user' in roles and current_user.role != 'user':
+                # Handle the case when the user is not a regular user
+                return render_template('404.html'), 404
+
+            return func(*args, **kwargs)
+        
+        return wrapper
+    
+    return decorator
 
 @app.route('/')
 @check_user_bookings
@@ -154,7 +188,7 @@ def reserveer(heeft_boekingen):
             flash(u'Er moet minimaal 1 dag tussen de start- en einddatum liggen', 'error')
             return redirect(url_for('reserveer'))
 
-        boeking = Boeking(bungalowID="1", tent_omschrijving=tent.omschrijving,
+        boeking = Boeking(bungalowID="1", tent_omschrijving=tent.naam,
                           startdatum=startdatum, einddatum=einddatum, userID=current_user.id)
 
         db.session.add(boeking)
@@ -202,27 +236,31 @@ def update_boeking():
     if boeking:
         # Check if the logged-in user owns the Boeking record
         if current_user.id == boeking.userID:
-            # Check if the startdatum is at least 7 days in the future
-            today = datetime.now().date()
-            if startdatum >= today + timedelta(days=7):
-                # Update the Boeking record
-                boeking.startdatum = startdatum
-                boeking.einddatum = einddatum
+            min_startdatum = datetime.now().date() + timedelta(days=7)
+            if startdatum < min_startdatum:
+                flash(u'De startdatum moet minimaal 7 dagen in de toekomst liggen', 'error')
+                return redirect(url_for('gebruiker'))
 
-                # Commit the changes to the database
-                db.session.commit()
+            # Check if there is at least 1 day in between the start and end dates
+            if (einddatum - startdatum).days < 1:
+                flash(u'Er moet minimaal 1 dag tussen de start- en einddatum liggen', 'error')
+                return redirect(url_for('gebruiker'))
 
-                # Redirect the user to a relevant page
-                return redirect('/gebruiker')
-            else:
-                flash(u'Je kunt de boeking niet meer wijzigen, omdat het minder dan 7 dagen voor de startdatum is.', 'warning')
-                return redirect ('/gebruiker')
+            # Update the Boeking record
+            boeking.startdatum = startdatum
+            boeking.einddatum = einddatum
+
+            # Commit the changes to the database
+            db.session.commit()
+
+            # Redirect the user to a relevant page
+            return redirect('/gebruiker')
         else:
-            flash ("er ging wat fout, probeer opnieuw")
-            return redirect ('/gebruiker')
+            flash("Er ging iets fout. Probeer het opnieuw.")
+            return redirect('/gebruiker')
     else:
         flash(u'Boeking ID is niet bekend', 'warning')
-        return redirect ('/gebruiker')
+        return redirect('/gebruiker')
 
 
 
@@ -233,6 +271,12 @@ def update_boeking():
 def accomidatiepagina(heeft_boekingen):
     return render_template('1accomidatiepagina.html', name=current_user, heeft_boekingen=heeft_boekingen)
 
+def accomidatiepagina():
+    bungnaam1 = Tent.query.filter_by(id=1).first()
+    bungnaam2 = Tent.query.filter_by(id=2).first()
+    bungnaam3 = Tent.query.filter_by(id=3).first()
+    bungnaam4 = Tent.query.filter_by(id=4).first()
+    return render_template('1accomidatiepagina.html', bungnaam1=bungnaam1, bungnaam2=bungnaam2, bungnaam3=bungnaam3, bungnaam4=bungnaam4, name=current_user)
 
 @app.route('/1activiteitenpagina')
 @check_user_bookings
@@ -279,6 +323,82 @@ def over_ons_pagina(heeft_boekingen):
 @check_user_bookings
 def reserveringspagina(heeft_boekingen):
     return render_template('1reserveringspagina.html',  name=current_user, heeft_boekingen=heeft_boekingen)
+
+
+@app.route('/admin_dashboard')
+@login_required
+@role_required('admin')
+def admin_dashboard():
+    bungID = Boeking.query.filter_by().all()
+    bunginfo = Tent.query.filter_by().all()
+
+    # Render the HTML template and pass the data
+    return render_template('admin_dashboard.html',  bungID=bungID, bunginfo=bunginfo ,name=current_user )
+
+
+
+
+@app.route('/admin_boeking',methods=['POST'] )
+@role_required('admin')
+@login_required
+def admin_boeking():
+ # Get form data
+    boeking_id = request.form.get('boeking_id')
+    startdatum = datetime.strptime(request.form.get('startdatum'), '%Y-%m-%d').date()
+    einddatum = datetime.strptime(request.form.get('einddatum'), '%Y-%m-%d').date()
+
+    # Retrieve the Boeking record from the database
+    boeking = Boeking.query.get(boeking_id)
+
+    if boeking:
+        # Update the Boeking record
+        boeking.startdatum = startdatum
+        boeking.einddatum = einddatum
+
+        # Commit the changes to the database
+        db.session.commit()
+
+        # Redirect the user to a relevant page
+        return redirect('/admin_dashboard')
+    else:
+        flash(u'Boeking ID is niet bekend', 'warning')
+        return redirect('/admin_dashboard')
+
+
+@app.route('/admin_tenten',methods=['POST'] )
+@role_required('admin')
+@login_required
+def admin_tenten():
+ # Get form data
+    id = request.form.get('id')
+    naam = request.form.get('naam')
+    omschrijving = request.form.get('omschrijving')
+    aantal_personen = request.form.get('aantal_personen')
+    prijs_per_dag = request.form.get('prijs_per_dag')
+
+    # Retrieve the Boeking record from the database
+    tenten = Tent.query.get(id)
+
+    if tenten:
+        # Update the Boeking record
+        tenten.naam = naam
+        tenten.omschrijving = omschrijving
+        tenten.aantal_personen = aantal_personen
+        tenten.prijs_per_dag = prijs_per_dag
+
+
+        # Commit the changes to the database
+        db.session.commit()
+
+        # Redirect the user to a relevant page
+        return redirect('/admin_dashboard')
+    else:
+        flash(u'TentID is niet bekend', 'warning')
+        return redirect('/admin_dashboard')
+
+
+        
+
 
 
 @app.route('/test')
@@ -352,3 +472,42 @@ def print_booking(booking_id):
         flash(u'Booking ID is not found.', 'warning')
 
     return redirect(url_for('gebruiker'))
+@app.route('/user')
+@login_required
+def user():
+    user = User.query.filter_by(id=current_user.id).first()
+    return render_template('user.html', user=user, name=current_user)
+
+ 
+
+@app.route('/update_user',methods=['POST'] )
+@login_required
+def update_user():
+ # Get form data
+    email = request.form.get('email')
+    username = request.form.get('username')
+    woonplaats = request.form.get('woonplaats')
+    huisnummer = request.form.get('huisnummer')
+    # toevoeging = request.form.get('toevoeging')
+    straat = request.form.get('straat')
+    postcode = request.form.get('postcode')
+
+    guser = User.query.filter_by(id=current_user.id).first()
+
+    if guser:
+
+        guser.email = email
+        guser.username = username
+        guser.woonplaats = woonplaats
+        guser.huisnummer = huisnummer
+        # guser.toevoeging = toevoeging
+        guser.straat = straat
+        guser.postcode = postcode
+
+        db.session.commit()
+
+        flash(u'uw gegevens zijn succesvol veranderd', 'warning')
+        return redirect('/user')
+    else:
+        flash(u'Er is iets fout gegaan', 'warning')
+        return redirect('/user')

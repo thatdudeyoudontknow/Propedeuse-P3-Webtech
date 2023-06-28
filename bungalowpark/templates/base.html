@@ -59,8 +59,11 @@
             {% else %}
               <li><a class="nav-link" href="{{ url_for('login') }}">Login</a></li>
               <li><a class="nav-link" href="{{ url_for('register') }}">Registreren</a></li>
+
+              {% endif %}
+            {% if current_user.role == 'admin' %}
+            <a class="nav-link {% if request.path == url_for('admin_dashboard') %}active{% endif %}" aria-current="page" href="{{ url_for('admin_dashboard')}}">admin dashboard</a>
             {% endif %}
-            
           </ul>
         </div>
       </nav>

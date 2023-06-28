@@ -38,11 +38,11 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="C:\Users\leend\Desktop\hopeloos\env"
+VIRTUAL_ENV="C:\Users\leend\Documents\GitHub\Webtech-\env"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
-PATH="$VIRTUAL_ENV/Scripts:$PATH"
+PATH="C:\Users\leend\Documents\GitHub\Webtech-\env\Scripts:$PATH"
 export PATH
 
 # unset PYTHONHOME if set
