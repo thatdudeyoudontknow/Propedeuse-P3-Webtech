@@ -63,7 +63,9 @@ def login():
             return redirect(url_parse(next).path)
         
         else:
-            flash(u'U email of wachtwoord is niet correct.', 'warning')     
+            flash(u'U email of wachtwoord is niet correct.', 'warning')    
+    elif form.email.errors:  
+        flash(u'u email is niet bestaand', 'warning')
     return render_template('login.html', form=form) 
 
 
@@ -278,3 +280,21 @@ def ww_vergetenpost():
 @app.route('/ww_vergeten')
 def ww_vergeten():
         return render_template('ww_vergeten.html',)
+
+
+
+@app.route('/print_booking/<int:booking_id>')
+@login_required
+def print_booking(booking_id):
+    booking = Boeking.query.get(booking_id)
+
+    if booking:
+        # Check if the logged-in user owns the booking
+        if current_user.id == booking.userID:
+            return render_template('print_booking.html', booking=booking)
+        else:
+            flash(u'You do not have permission to print this booking.', 'warning')
+    else:
+        flash(u'Booking ID is not found.', 'warning')
+
+    return redirect(url_for('gebruiker'))

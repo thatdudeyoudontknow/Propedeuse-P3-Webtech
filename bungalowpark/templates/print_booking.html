@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Booking Details</title>
+    <style>
+        /* Add custom styles for the printable page */
+        /* For example: */
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            font-size: 24px;
+        }
+
+        /* Add more styles as needed */
+    </style>
+</head>
+<body>
+    <h1>Booking Details</h1>
+    <p>Booking ID: {{ booking.id }}</p>
+    <p>Start Date: {{ booking.startdatum }}</p>
+    <p>End Date: {{ booking.einddatum }}</p>
+    <p>Tent: {{ booking.tent_omschrijving }}</p>
+    <!-- Add more booking details as needed -->
+
+    <!-- Add a button or link to print the page -->
+    <button onclick="window.print()">Print</button>
+</body>
+</html>

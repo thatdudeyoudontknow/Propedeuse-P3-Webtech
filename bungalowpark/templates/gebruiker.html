@@ -21,12 +21,24 @@
     <tr>
         <td>{{ item.id }}</td>
         <td>{{ item.tent_omschrijving }}</td>
-        <td>{{ item.startdatum.strftime('%d-%m-%Y')  }}</td>
+        <td>{{ item.startdatum.strftime('%d-%m-%Y') }}</td>
         <td>{{ item.einddatum.strftime('%d-%m-%Y') }}</td>
         <td>
             <a href="{{ url_for('delete_boeking', boeking_id=item.id) }}" onclick="return confirm('Weet je zeker dat je deze boeking wilt verwijderen?')">Verwijder</a>
         </td>
     </tr>
+    {% endfor %}
+    {% for booking in bungID %}
+    <div class="booking-item">
+        <p>Booking ID: {{ booking.id }}</p>
+        <p>Start Date: {{ booking.startdatum }}</p>
+        <p>End Date: {{ booking.einddatum }}</p>
+        <p>Tent: {{ booking.tent_omschrijving }}</p>
+        <!-- Add more booking details as needed -->
+
+        <!-- Add a link or button to print the booking -->
+        <a href="{{ url_for('print_booking', booking_id=booking.id) }}" target="_blank">Print</a>
+    </div>
     {% endfor %}
     </table>
 </ul>
@@ -37,7 +49,6 @@
     <input type="date" name="startdatum" placeholder="Startdatum" required>
     <input type="date" name="einddatum" placeholder="Einddatum" required>
     <button type="submit">Update</button>
-  </form>
-
+</form>
 
 {% endblock %}
