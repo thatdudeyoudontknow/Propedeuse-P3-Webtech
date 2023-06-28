@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, redirect, request, url_for, flash, abort
+from flask import Flask, render_template, redirect, request, url_for, flash, get_flashed_messages
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user 
@@ -54,24 +54,17 @@ def login():
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
         if user is not None and user.check_password(form.password.data):
-            if user.username == 'admin':
-                # Password is correct for admin user, allow access
-                login_user(user)
-                flash(u'Successvol ingelogd als admin.', 'success')
-                return redirect(url_for('gebruiker'))
-            else:
-                # Password is correct for regular user, allow access
-                login_user(user)
-                flash(u'Successvol ingelogd.', 'success')
-
-                next = request.args.get('next')
-                if not next or url_parse(next).netloc != '':
-                    next = url_for('index')
-                return redirect(url_parse(next).path)
+            login_user(user)
+            flash(u'Succesvol ingelogd.', 'success')
+    
+            next = request.args.get('next')
+            if not next or url_parse(next).netloc != '':
+                next = url_for('index')
+            return redirect(url_parse(next).path)
+        
         else:
-            flash(u'je email of gebruikersnaam is onjuist', 'warning')
-
-    return render_template('login.html', form=form)
+            flash(u'U email of wachtwoord is niet correct.', 'warning')     
+    return render_template('login.html', form=form) 
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -112,10 +105,7 @@ def reserveer():
     tents = Tent.query.all()
     if form.validate_on_submit():
         # Get the selected tent ID from the form
-        tent_id = request.form.get('tent')
-
-        # Retrieve the tent object from the database using the selected ID
-        tent = Tent.query.get(tent_id)
+        tent = Tent.query.get(form.tent.data)
 
         startdatum = datetime.strptime(form.startdatum.data, '%Y-%m-%d').date()
         einddatum = datetime.strptime(form.einddatum.data, '%Y-%m-%d').date()
@@ -269,6 +259,7 @@ def ww_vergetenpost():
     user = User.query.filter_by(email=email).first()
 
     if user:
+        print("1")
         if code == '3269':
             user.password_hash = generate_password_hash(new_password)
             # Commit the changes to the database
@@ -276,9 +267,12 @@ def ww_vergetenpost():
             # Redirect the user to a relevant page
             return redirect('/login')
         else:
-            abort(403)  # Return a Forbidden error
+            flash(u'Verificatie Code is onjuist.')
+            return redirect ("/ww_vergeten")
     else:
-        flash(u'email is niet bekend', 'warning')
+        print("2")
+        flash(u'email niet correct', 'warning')
+        return redirect ('/ww_vergeten')
 
     
 @app.route('/ww_vergeten')

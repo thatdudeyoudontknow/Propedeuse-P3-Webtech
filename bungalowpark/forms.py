@@ -1,4 +1,4 @@
-from bungalowpark.models import User
+from bungalowpark.models import User, Tent
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SubmitField
 from wtforms.validators import DataRequired, Email, EqualTo
@@ -29,9 +29,19 @@ class LoginForm(FlaskForm):
     password = PasswordField('wachtwoord', validators=[DataRequired()])
     submit = SubmitField('Inloggen')
 
+# class BoekingForm(FlaskForm):
+#     tent = StringField('tent', validators=DataRequired)
+#     startdatum =  StringField('startdatum', validators=[DataRequired()])
+#     einddatum =  StringField('einddatum', validators=[DataRequired()])
+#     submit = SubmitField('Boek NU!')
+
 class BoekingForm(FlaskForm):
-    
-    startdatum =  StringField('startdatum', validators=[DataRequired()])
-    einddatum =  StringField('einddatum', validators=[DataRequired()])
+    tent = StringField('tent', validators=[DataRequired()])
+    startdatum = StringField('startdatum', validators=[DataRequired()])
+    einddatum = StringField('einddatum', validators=[DataRequired()])
     submit = SubmitField('Boek NU!')
 
+    def validate_tent(self, field):
+        tent_ids = [str(tent.id) for tent in Tent.query.all()]
+        if field.data not in tent_ids:
+            raise ValidationError('Ongeldige tent selectie')

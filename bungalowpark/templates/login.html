@@ -2,13 +2,15 @@
 {% block content %}
 
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style_login.css') }}">
-
-{% for message in get_flashed_messages() %}
-<div class="alert alert-warning">
-    <button type="button" class="close" data-dismiss="alert">&times;</button>
-    {{ message }}
+<div id="flash-messages">
+    {% for message in get_flashed_messages() %}
+    <div class="alert alert-warning" role="alert">
+        {{ message }}
+    </div>
+    {% endfor %}
 </div>
-{% endfor %}
+
+
 <div class="container mt-2">
     <div class="row justify-content-md-center">
         <div class="col col-lg-3 col-md-8 col-sm-10">
@@ -24,10 +26,14 @@
                 </div>
                 {{ form.submit(class="btn btn-primary") }}
             </form>
+            <a href="{{ url_for('ww_vergeten') }}"  >
+                <div class="ww_button">wachtwoord vergeten?</div>
+            </a>
         </div>
+
     </div>
+    
 </div>
 
 
-<a href="{{ url_for('ww_vergeten') }}" class="ww_button">wachtwoord vergeten?</a>
 {% endblock %}
