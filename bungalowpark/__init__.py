@@ -25,11 +25,22 @@ Migrate(app, db)
 
 from bungalowpark.models import  User, Boeking, Tent 
 from bungalowpark.forms import LoginForm, Registratieformulier, BoekingForm
+from functools import wraps
+
+# Decorator function to check if the user is authenticated and query the bookings
+def check_user_bookings(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        heeft_boekingen = None
+        if current_user.is_authenticated:
+            heeft_boekingen = Boeking.query.filter_by(userID=current_user.id).first()
+        return f(heeft_boekingen=heeft_boekingen, *args, **kwargs)
+    return decorated_function
 
 @app.route('/')
-def index():
-
-    return render_template('home.html',  name=current_user)
+@check_user_bookings
+def index(heeft_boekingen):
+    return render_template('home.html',  name=current_user , heeft_boekingen=heeft_boekingen )
 
 
 @app.route('/logout')
@@ -41,12 +52,14 @@ def logout():
 
 @app.route('/boekingen')
 @login_required
-def boekingen():
+@check_user_bookings
+def boekingen(heeft_boekingen):
+    print("kankk")
     today = datetime.now()
     weeknummer = datetime.date(today).isocalendar()[1]
     nieuweBoekingen = Boeking.query.filter(Boeking.userID == current_user.id, Boeking.weeknummer > weeknummer)
     oudeBoekingen = Boeking.query.filter(Boeking.userID == current_user.id, Boeking.weeknummer <= weeknummer)
-    return render_template('boekingen.html', nieuweBoekingen=nieuweBoekingen, oudeBoekingen=oudeBoekingen)
+    return render_template('boekingen.html', nieuweBoekingen=nieuweBoekingen, oudeBoekingen=oudeBoekingen, heeft_boekingen=heeft_boekingen)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -63,7 +76,7 @@ def login():
             return redirect(url_parse(next).path)
         
         else:
-            flash(u'U email of wachtwoord is niet correct.', 'warning')    
+            flash(u'U email of wachtwoord is niet correct.', 'warning')     
     elif form.email.errors:  
         flash(u'u email is niet bestaand', 'warning')
     return render_template('login.html', form=form) 
@@ -80,20 +93,32 @@ def register():
             flash(u'Dit emailadres is al in gebruik. Kies een ander emailadres.', 'warning')
         elif user_username:
             flash(u'Deze gebruikersnaam is al in gebruik. Kies een andere gebruikersnaam.', 'warning')
+
         else:
             user = User(email=form.email.data,
                         username=form.username.data,
                         password=form.password.data,
                         woonplaats=form.woonplaats.data,
                         huisnummer=form.huisnummer.data,
+                        toevoeging=form.toevoeging.data,
                         straat=form.straat.data,
                         postcode=form.postcode.data)
 
             db.session.add(user)
             db.session.commit()
 
+
+
             flash(u'Dank voor de registratie. Er kan nu ingelogd worden! ', 'success')
             return redirect(url_for('login'))
+    elif form.email.errors:
+        flash(u'Dit email is incorrect')    
+
+    elif form.postcode.errors:
+        flash(u'ongeldige postcode')
+
+    elif form.password.errors:
+        flash(u'Wachtwoord komt niet overeen')
 
     return render_template('register.html', form=form)
 
@@ -102,7 +127,8 @@ from datetime import datetime, timedelta
 
 @app.route('/1reserveringspagina', methods=['GET', 'POST'])
 @login_required
-def reserveer():
+@check_user_bookings
+def reserveer(heeft_boekingen):
     form = BoekingForm()
     tents = Tent.query.all()
     if form.validate_on_submit():
@@ -132,19 +158,28 @@ def reserveer():
         flash(u'U heeft met succes uw bungalow geboekt', 'success')
         return redirect(url_for('gebruiker'))
 
-    return render_template('1reserveringspagina.html', name=current_user, form=form, tents=tents)
-
+    return render_template('1reserveringspagina.html', name=current_user, form=form, tents=tents, heeft_boekingen=heeft_boekingen)
 
 
 
 
 @app.route('/gebruiker')
-def gebruiker():
+@login_required
+@check_user_bookings
+def gebruiker(heeft_boekingen):
 
     bungID = Boeking.query.filter_by(userID=current_user.id).all()
+    
+
+    return render_template('gebruiker.html', bungID=bungID, heeft_boekingen=heeft_boekingen)
+
+
+    # if not heeft_boekingen:
+    #     flash(u'U heeft nog geen boeking gedaan.', 'warning')
+    #     return redirect(url_for('index'))
 
     # Render the HTML template and pass the data
-    return render_template('gebruiker.html',  bungID=bungID ,name=current_user )
+    # return render_template('gebruiker.html',  bungID=bungID ,name=current_user )
 
 
 
@@ -186,45 +221,56 @@ def update_boeking():
 
 
 @app.route('/1accomidatiepagina')
-def accomidatiepagina():
-    return render_template('1accomidatiepagina.html',name=current_user)
+@check_user_bookings
+def accomidatiepagina(heeft_boekingen):
+    return render_template('1accomidatiepagina.html', name=current_user, heeft_boekingen=heeft_boekingen)
+
 
 @app.route('/1activiteitenpagina')
-def activiteitenpagina():
-    return render_template('1activiteitenpagina.html',name=current_user)
+@check_user_bookings
+def activiteitenpagina(heeft_boekingen):
+    return render_template('1activiteitenpagina.html',name=current_user, heeft_boekingen=heeft_boekingen)
 
 @app.route('/1blogpagina')
-def blogpagina():
-    return render_template('1blogpagina.html',name=current_user)
+@check_user_bookings
+def blogpagina(heeft_boekingen):
+    return render_template('1blogpagina.html',name=current_user, heeft_boekingen=heeft_boekingen)
 
 @app.route('/1contactpagina')
-def contactpagina():
-    return render_template('1contactpagina.html',name=current_user)
+@check_user_bookings
+def contactpagina(heeft_boekingen):
+    return render_template('1contactpagina.html',name=current_user, heeft_boekingen=heeft_boekingen)
 
 @app.route('/1faciliteitenpagina')
-def faciliteitenpagina():
-    return render_template('1faciliteitenpagina.html',name=current_user)
+@check_user_bookings
+def faciliteitenpagina(heeft_boekingen):
+    return render_template('1faciliteitenpagina.html',name=current_user, heeft_boekingen=heeft_boekingen)
 
 @app.route('/1homepagina')
-def homepagina():
-    return render_template('1homepagina.html',name=current_user)
+@check_user_bookings
+def homepagina(heeft_boekingen):
+    return render_template('1homepagina.html',name=current_user, heeft_boekingen=heeft_boekingen)
 
 @app.route('/1informatiepagina')
-def informatiepagina():
-    return render_template('1informatiepagina.html',name=current_user)
+@check_user_bookings
+def informatiepagina(heeft_boekingen):
+    return render_template('1informatiepagina.html',name=current_user, heeft_boekingen=heeft_boekingen)
 
 @app.route('/1omgevingspagina')
-def omgevingspagina():
-    return render_template('1omgevingspagina.html',name=current_user)
+@check_user_bookings
+def omgevingspagina(heeft_boekingen):
+    return render_template('1omgevingspagina.html',name=current_user, heeft_boekingen=heeft_boekingen)
 
 @app.route('/1over ons-pagina')
-def over_ons_pagina():
-    return render_template('1over ons-pagina.html',name=current_user)
+@check_user_bookings
+def over_ons_pagina(heeft_boekingen):
+    return render_template('1over ons-pagina.html',name=current_user, heeft_boekingen=heeft_boekingen)
 
 @app.route('/1reserveringspagina')
 @login_required
-def reserveringspagina():
-    return render_template('1reserveringspagina.html',  name=current_user)
+@check_user_bookings
+def reserveringspagina(heeft_boekingen):
+    return render_template('1reserveringspagina.html',  name=current_user, heeft_boekingen=heeft_boekingen)
 
 @app.route('/test')
 def test():
@@ -280,7 +326,6 @@ def ww_vergetenpost():
 @app.route('/ww_vergeten')
 def ww_vergeten():
         return render_template('ww_vergeten.html',)
-
 
 
 @app.route('/print_booking/<int:booking_id>')

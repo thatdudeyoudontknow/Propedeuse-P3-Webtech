@@ -52,7 +52,10 @@
             {% if current_user.is_authenticated %}
             <li><a class ="welkom" >{{ name }}</a></li>
               <li><a class="nav-link" href="{{ url_for('logout') }}">Uitloggen</a></li>
+              {% if heeft_boekingen %}
               <li><a class="nav-link" href="{{ url_for('gebruiker') }}">boekingen</a></li>
+              {% endif %}
+
             {% else %}
               <li><a class="nav-link" href="{{ url_for('login') }}">Login</a></li>
               <li><a class="nav-link" href="{{ url_for('register') }}">Registreren</a></li>

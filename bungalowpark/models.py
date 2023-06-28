@@ -14,22 +14,24 @@ class User(db.Model,UserMixin):
 
     id = db.Column(db.Integer(),primary_key= True)
     email = db.Column(db.String(64), unique=True, nullable=False, index=True)
-    username = db.Column(db.String(64), unique=True, nullable=False, index=True)
+    username = db.Column(db.String(32), unique=True, nullable=False, index=True)
     password_hash = db.Column(db.String(120), nullable=False)
 
     woonplaats = db.Column(db.String(40), nullable=False)
     huisnummer = db.Column(db.Integer(), nullable=False)
+    toevoeging = db.Column(db.String(6), nullable=True)
     straat = db.Column(db.String(40), nullable=False)
     postcode = db.Column(db.String(6), nullable=False)
 
 
 
-    def __init__(self, email, username,password, woonplaats,huisnummer,straat,postcode):
+    def __init__(self, email, username,password, woonplaats,huisnummer,straat,postcode, toevoeging):
         self.email = email
         self.username = username
         self.password_hash = generate_password_hash(password)
         self.woonplaats = woonplaats
         self.huisnummer = huisnummer
+        self.toevoeging = toevoeging
         self.straat = straat
         self.postcode = postcode
 
