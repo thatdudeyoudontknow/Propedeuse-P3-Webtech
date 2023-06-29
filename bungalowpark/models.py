@@ -27,7 +27,7 @@ class User(db.Model, UserMixin):
 
 
 
-    def __init__(self, email, username,password, woonplaats,huisnummer,straat,postcode,role='user'):
+    def __init__(self, email, username,password, woonplaats,huisnummer,straat,postcode,toevoeging,role='user'):
         self.email = email
         self.username = username
         self.password_hash = generate_password_hash(password)

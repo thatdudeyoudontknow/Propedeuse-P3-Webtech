@@ -268,15 +268,13 @@ def update_boeking():
 
 @app.route('/1accomidatiepagina')
 @check_user_bookings
-def accomidatiepagina(heeft_boekingen):
-    return render_template('1accomidatiepagina.html', name=current_user, heeft_boekingen=heeft_boekingen)
 
-def accomidatiepagina():
+def accomidatiepagina(heeft_boekingen):
     bungnaam1 = Tent.query.filter_by(id=1).first()
     bungnaam2 = Tent.query.filter_by(id=2).first()
     bungnaam3 = Tent.query.filter_by(id=3).first()
     bungnaam4 = Tent.query.filter_by(id=4).first()
-    return render_template('1accomidatiepagina.html', bungnaam1=bungnaam1, bungnaam2=bungnaam2, bungnaam3=bungnaam3, bungnaam4=bungnaam4, name=current_user)
+    return render_template('1accomidatiepagina.html', bungnaam1=bungnaam1, bungnaam2=bungnaam2, bungnaam3=bungnaam3, bungnaam4=bungnaam4, name=current_user, heeft_boekingen=heeft_boekingen)
 
 @app.route('/1activiteitenpagina')
 @check_user_bookings
