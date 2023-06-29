@@ -531,4 +531,13 @@ th {
   background-color: #cc8454;
 }
 
+.verwijderen{
+  text-decoration: none;
+  color: red;
+}
+
+.verwijderen:hover{
+  text-decoration: none;
+  color: rgb(114, 1, 1);
+}
 
