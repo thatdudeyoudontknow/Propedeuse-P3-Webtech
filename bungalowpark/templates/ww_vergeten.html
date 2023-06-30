@@ -7,19 +7,23 @@
     {{ message }}
 {% endfor %}
 <a class="ww_vergetencss">
-<div>Bel 0612525215 voor het aanvragen van de Verificatie code</div>
+<div>Bel 0612525215 voor het aanvragen van de Verificatie code.</div>
 <br>
-<div>vul hier je email in:</div>
-<div>
-    <form method="POST" action="/ww_vergetenpost">
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
-        <label for="code">Verificatie Code:</label>
-        <input type="text" id="code" name="code" required>
-        <label for="new_password">Niew wachtwoord:</label>
-        <input type="password" id="new_password" name="new_password" required>
-        <button type="submit">Reset wachtwoord</button>
-      </form>
+
+<div class="container mt-2">
+    <div class="row justify-content-md-center">
+
+            <form method="POST" action="/ww_vergetenpost" class="ww_test">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+                <label for="code">Verificatie Code:</label>
+                <input type="text" id="code" name="code" required>
+                <label for="new_password">Niew wachtwoord:</label>
+                <input type="password" id="new_password" name="new_password" required>
+                <button class="btn btn-primary" id="submit" name="submit" type="submit">Reset wachtwoord</button>
+            </form>
+        
+    </div>
 </div>
 </a>
 {% endblock %}

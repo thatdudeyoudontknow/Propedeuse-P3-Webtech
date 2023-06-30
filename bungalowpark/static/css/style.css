@@ -3,12 +3,12 @@ body {
   background-color: #faf5f0;
 }
 
-
 .logo_site{
   width: 20%;
   height: 20%;
   
 }
+
 .navigatiebar{
   width: 100%;
   background-color: #e4b37d;
@@ -28,9 +28,6 @@ body {
   text-align: center;
   font-size: x-large;
 }
-    
-
-    
 
 .welkom {
   float: right;
@@ -41,13 +38,11 @@ body {
   margin-right: 30px;
 }
 
-
 .navbar {
   width: 100%;
   background-color: #e4b37d;
   overflow: auto;
 }
-
 
 .nav-link {
   float: left;
@@ -56,19 +51,20 @@ body {
   text-decoration: none;
   font-size: 17px;
 }
+
 .navbar2-nav{
   list-style-type: none;
   margin: 0;
   padding: 0;
   overflow: hidden
 }
+
 .navbar2-nav a {
   float: right;
   padding: 12px;
   color: white;
   text-decoration: none;
-  font-size: 17px;
-  
+  font-size: 17px;  
 }
 
 .navbar b {
@@ -130,7 +126,7 @@ body {
   border: none;
   border-radius: 0;
   color: #6a6a6a;
-  background-color: #f2f2f2;
+  background-color: #c56e37;
   display: inline-block;
   padding: 0.5rem 1rem;
   border-radius: 0.25rem;
@@ -145,11 +141,6 @@ body {
   border: none;
 }
 
-
-
-
-
-
 .active {
   background-color: #c56e37;
 }
@@ -157,33 +148,37 @@ body {
 /* style buiten box 1 */
 .box1 {
   border-radius: 20px;
-  position: absolute;
+  position: fixed;
   width: 819px;
   height: 318px;
   
   background: #E4B37D;
   border-radius: 20px;
   margin-left: 3%;
+  
 
 }
+
 /* style binnen box 1 */
 .box1_in {
   box-sizing: border-box;
   
   position: absolute;
-  width: 508px;
-  height: 260px;
+  width: 60%;
+  height: 80%;
 
   border: 1px solid #CC8454;
   border-radius: 20px;
   margin-left: 34%;
   margin-top: 3.5%;
   color: white;
-  text-align: center;}
+  text-align: center;
+  overflow: auto;
+}
 
 /* style buiten box 2 */
 .box2 {
-  position: absolute;
+  position: fixed;
   width: 819px;
   height: 318px;
   
@@ -191,13 +186,14 @@ body {
   border-radius: 20px;
   margin-left: 53%;
 }
+
 /* style binnen box 2 */
 .box2_in {
   box-sizing: border-box;
   
   position: absolute;
-  width: 508px;
-  height: 260px;
+  width: 60%;
+  height: 80%;
   
   border: 1px solid #CC8454;
   border-radius: 20px;
@@ -205,11 +201,12 @@ body {
   margin-top: 3.5%;
   color: white;
   text-align: center;
+  overflow: auto;
 }
 
 /* style buiten box 3 */
 .box3 {
-  position: absolute;
+  position: fixed;
   width: 819px;
   height: 318px;
   
@@ -218,13 +215,14 @@ body {
   margin-left: 3%;
   margin-top: 20%;
 }
+
 /* style binnen box 3 */
 .box3_in {
   box-sizing: border-box;
   
   position: absolute;
-  width: 508px;
-  height: 260px;
+  width: 60%;
+  height: 80%;
   
   border: 1px solid #CC8454;
   border-radius: 20px;
@@ -232,11 +230,12 @@ body {
   margin-top: 3.5%;
   color: white;
   text-align: center;
+  overflow: auto;
 }
 
 /* style buiten box 4 */
 .box4 {
-  position: absolute;
+  position: fixed;
   width: 819px;
   height: 318px;
   
@@ -245,13 +244,14 @@ body {
   margin-left: 53%;
   margin-top: 20%;
 }
-/* style binnen box 4 */
+
+/* style binnen box 4 */  
 .box4_in {
   box-sizing: border-box;
   
   position: absolute;
-  width: 508px;
-  height: 260px;
+  width: 60%;
+  height: 80%;
   
   border: 1px solid #CC8454;
   border-radius: 20px;
@@ -259,8 +259,9 @@ body {
   margin-top: 3.5%;
   color: white;
   text-align: center;
-
+  overflow: auto;
 }
+
 
 /* style binnen box 1 */
 .box1_img {
@@ -272,6 +273,7 @@ body {
   left: 3%;
   top: 9%;
 }
+
 .box2_img {
 
   border-radius: 20px;
@@ -282,7 +284,6 @@ body {
   top: 9%;
 }
 
-
 .box3_img {
 
   border-radius: 20px;
@@ -292,8 +293,6 @@ body {
   left: 3%;
   top: 9%;
 }
-
-
 
 .box4_img {
 
@@ -328,9 +327,9 @@ body {
   color: white;
   text-align: center;
   font-size: large;
-
-
+  overflow: auto;
 }
+
 .box5 {
   border-radius: 20px;
   position: absolute;
@@ -341,7 +340,6 @@ body {
   background: #E4B37D;
   border-radius: 20px;
   margin-left: 3%;
-
 }
 
 table {
@@ -359,17 +357,8 @@ th {
   background-color: #f5b67383;
 }
 
-* {box-sizing:border-box;}
 
-/* .ww_button {
-  display: flex;
-  padding: 0.5rem 1rem;
-  background-color: #E4B37D;
-  color: #000;
-  border-radius: 0.25rem;
-/* .form input {
-  padding: 5px;
-} */
+
 
 .form button {
   padding: 10px;
@@ -394,36 +383,40 @@ th {
   box-sizing: border-box;
 }
 
-.ww_button {
-  display: inline-block;
-  padding: 10px 20px;
-  background-color: #E4B37D;  
-  color: #fff;
-  text-decoration: none;
-  border-radius: 4px;
-  transition: background-color 0.3s ease;
-  /* margin-left: 44.5%; */
-  /* margin-top: 2%; */
-  /* align-items: center; */
-  justify-content: center;
-  margin-top: 2%;
-  font-size: 0.5rem;
-} */
-
-
-
 .ww_vergetencss {
   display: inline-block;
+  border: none;
+  border-radius: 0;
+  /* border-bottom: 2px solid #d9d9d9; */
   padding: 10px 20px;
-  background-color: #E4B37D;  
-  color: #fff;
+  font-weight: bold;
+  color: #6a6a6a;
   margin-left: 25%;
   margin-top: 2%;
   border-radius: 5px;
-
 }
 
+.center-line {
+  position: fixed;
+  /* top: 50%; */
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 1px;
+  width: 100vw;
+  background-color: black;
+  z-index: 9999;
+}
 
+.center-line::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1px;
+  height: 100vh;
+  background-color: black;
+}
 
 .error {
   text-align: center;
@@ -435,7 +428,6 @@ th {
   left: 40%;
   transform: translate(-30%, -50%);
 }
-
 
 .notfoundcontainer{
   position: relative;
@@ -487,8 +479,8 @@ th {
   box-sizing: border-box;
   text-decoration: none;
   font-family: Arial, Helvetica, sans-serif;
-
 }
+
 /* Style the submit button */
 .form-grid button {
   padding: 10px;
@@ -518,11 +510,21 @@ th {
   width: 100%;
   text-align: center;
   font-family: Arial, Helvetica, sans-serif;
-  
 }
 
 .ww_knop:hover {
   background-color: #cc8454;
 }
 
+.centerration {
+.verwijderen{
+  text-decoration: none;
+  color: red;
+}
 
+.verwijderen:hover{
+  text-decoration: none;
+  color: rgb(114, 1, 1);
+}
+
+}

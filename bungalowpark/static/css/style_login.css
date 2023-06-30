@@ -1,33 +1,22 @@
 .container.mt-2 {
     display: flex;
     justify-content: center;
-  }
+}
   
-
 .row{
-
 padding: 0.5rem 1rem;
-    
 border-radius: 0.25rem;
-    
 font-size: 1rem;
-    
 font-weight: 600;
-    
 text-decoration: none;
-    
 text-align: center;
-    
 white-space: nowrap;
-    
 cursor: pointer;
-    
-color: #fff;
-    
+color: #6a6a6a;    
 box-shadow: 0 0 0 0.01rem black;
-    
 border: none;
 }
+
 .btn {
   display: inline-block;
   padding: 0.5rem 1rem;
@@ -42,11 +31,13 @@ border: none;
   color: #fff;
   border: none;
 }
+
 .btn-primary {
   background-color: #e4b37d;
   color: #fff;
   margin-top: 2%;
 }
+
 .btn-primary:hover {
   background-color: #cc8454;
   color: #fff;
@@ -54,25 +45,25 @@ border: none;
 }
 
 .form-control{
-
 background-color:#faf5f0;
 }
+
 .form-label{
     text-align:start;
 }
 
 #flash-messages {
-  position: fixed;
-  top: 20px;
-  right: 20px;
+  position: relative;
+  top: 9px;
   z-index: 9999;
+  
 }
 
 
-.alert {
-  /* position: relative; */
-  /* margin-bottom: 10px; */
-}
+/* .alert {
+  position: relative;
+  /* /* margin-bottom: 10px; */
+/* } */
 
 .ww_button {
   display: inline-block;
@@ -84,12 +75,12 @@ background-color:#faf5f0;
   text-align: center;
   white-space: nowrap;
   cursor: pointer;
-  /* background-color: #e4b37d; */
   color: #000;
   border: none;
   font-size: 0.5rem;
   margin-top: 2%;
 }
+
 .ww_button:hover {
   background-color: #cc8454;
 }
