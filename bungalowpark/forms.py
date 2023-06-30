@@ -20,11 +20,11 @@ class RegistrationForm(FlaskForm):
     submit = SubmitField('Registeren!')
 
     def validate_woonplaats(self, field):
-        if not field.data.isalpha():
+        if not field.data.replace('.', '').replace('-', '').isalpha():
             raise ValidationError('ongeldige woonplaats')
 
     def validate_straat(self, field):
-        if not field.data.isalpha():
+        if not field.data.replace('.', '').replace('-', '').isalpha():
             raise ValidationError('ongeldige straatnaam.')
     
     def check_email(self, field):
