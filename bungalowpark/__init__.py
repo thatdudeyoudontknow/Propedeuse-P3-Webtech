@@ -1,10 +1,7 @@
 import os
-from flask import Flask, render_template, redirect, request, url_for, flash, get_flashed_messages
+from flask import Flask, render_template, redirect, request, url_for, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-# from flask_login import LoginManager, UserMixin, login_required
-# from flask_bcrypt import Bcrypt
-from flask_wtf import FlaskForm
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user 
 from datetime import datetime
 from werkzeug.urls import url_parse
@@ -12,6 +9,7 @@ from werkzeug.security import generate_password_hash
 from flask_login import current_user
 from datetime import datetime, timedelta
 from functools import wraps
+from datetime import datetime, timedelta
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'X11gc3N5hb78RGyKY4qk5qHZ8aqC4Ch7'
@@ -31,6 +29,7 @@ from bungalowpark.models import  User, Boeking, Tent
 from bungalowpark.forms import LoginForm, RegistrationForm, BoekingForm
 from functools import wraps
 
+
 # Decorator function to check if the user is authenticated and query the bookings
 def check_user_bookings(f):
     @wraps(f)
@@ -41,14 +40,10 @@ def check_user_bookings(f):
         return f(heeft_boekingen=heeft_boekingen, *args, **kwargs)
     return decorated_function
 
-# app name
+# Error handler
 @app.errorhandler(404)
-  
-# inbuilt function which takes error as parameter
 def not_found(e):
-  
-# defining function
-  return render_template("404.html")
+    return render_template("404.html"), 404
 
 
 def role_required(*roles):
@@ -168,7 +163,6 @@ def register():
     return render_template('register.html', form=form)
 
 
-from datetime import datetime, timedelta
 
 @app.route('/1reserveringspagina', methods=['GET', 'POST'])
 @login_required
