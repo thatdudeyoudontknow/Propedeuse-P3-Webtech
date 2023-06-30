@@ -155,6 +155,12 @@ def register():
 
     elif form.postcode.errors:
         flash(u'ongeldige postcode')
+    
+    elif form.woonplaats.errors:
+        flash(u'ongeldige woonplaats')
+              
+    elif form.straat.errors:
+        flash(u'ongeldige straatnaam')
 
     elif form.password.errors:
         flash(u'Wachtwoord komt niet overeen')
