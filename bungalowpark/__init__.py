@@ -155,6 +155,12 @@ def register():
 
     elif form.postcode.errors:
         flash(u'ongeldige postcode')
+    
+    elif form.woonplaats.errors:
+        flash(u'ongeldige woonplaats')
+              
+    elif form.straat.errors:
+        flash(u'ongeldige straatnaam')
 
     elif form.password.errors:
         flash(u'Wachtwoord komt niet overeen')
@@ -174,8 +180,12 @@ def reserveer(heeft_boekingen):
         # Get the selected tent ID from the form
         tent = Tent.query.get(form.tent.data)
 
-        startdatum = datetime.strptime(form.startdatum.data, '%Y-%m-%d').date()
-        einddatum = datetime.strptime(form.einddatum.data, '%Y-%m-%d').date()
+        try:
+            startdatum = datetime.strptime(form.startdatum.data, '%Y-%m-%d').date()
+            einddatum = datetime.strptime(form.einddatum.data, '%Y-%m-%d').date()
+        except ValueError:
+            flash(u'Ongeldige datumnotatie. Gebruik het formaat DD-MM-JJJ', 'error')
+            return redirect(url_for('reserveer'))
 
         # Check if the start date is at least 7 days from now
         min_startdatum = datetime.now().date() + timedelta(days=7)
@@ -196,9 +206,6 @@ def reserveer(heeft_boekingen):
 
         flash(u'U heeft met succes uw bungalow geboekt', 'success')
         return redirect(url_for('gebruiker'))
-
-
-
 
     return render_template('1reserveringspagina.html', name=current_user, form=form, tents=tents)
 
