@@ -22,9 +22,9 @@
     
     <label for="huisnummer">Huisnummer:</label>
     <input type="text" id="huisnummer" name="huisnummer" placeholder="huisnummer" value="{{user.huisnummer}}" required>
-<!-- 
+
     <label for="huisnummer">toevoging</label>
-    <input type="text" id="toevoeging" name="toevoeging" placeholder="toevoeging" value="{{user.toevoeging}}" required> -->
+    <input type="text" id="toevoeging" name="toevoeging" placeholder="toevoeging" value="{{user.toevoeging}}" required> 
     
     <label for="straat">Straat:</label>
     <input type="text" id="straat" name="straat" placeholder="straat" value="{{user.straat}}" required>
@@ -33,6 +33,7 @@
     <input type="text" id="postcode" name="postcode" placeholder="postcode" value="{{user.postcode}}" required>
     
     <button type="submit">Update</button>
+
     <a href="{{ url_for('ww_vergeten') }}" class="ww_knop">wachtwoord veranderen?</a>
   </form>
   

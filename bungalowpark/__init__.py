@@ -9,7 +9,7 @@ from werkzeug.security import generate_password_hash
 from flask_login import current_user
 from datetime import datetime, timedelta
 from functools import wraps
-from datetime import datetime, timedelta
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'X11gc3N5hb78RGyKY4qk5qHZ8aqC4Ch7'
@@ -178,7 +178,7 @@ def reserveer(heeft_boekingen):
             startdatum = datetime.strptime(form.startdatum.data, '%Y-%m-%d').date()
             einddatum = datetime.strptime(form.einddatum.data, '%Y-%m-%d').date()
         except ValueError:
-            flash(u'Ongeldige datumnotatie. Gebruik het formaat DD-MM-JJJ', 'error')
+            flash(u'Ongeldige datumnotatie. Gebruik het formaat DD-MM-JJJJ', 'error')
             return redirect(url_for('reserveer'))
 
         # Check if the start date is at least 7 days from now
@@ -214,13 +214,6 @@ def gebruiker(heeft_boekingen):
 
     return render_template('gebruiker.html', bungID=bungID, heeft_boekingen=heeft_boekingen)
 
-
-    # if not heeft_boekingen:
-    #     flash(u'U heeft nog geen boeking gedaan.', 'warning')
-    #     return redirect(url_for('index'))
-
-    # Render the HTML template and pass the data
-    # return render_template('gebruiker.html',  bungID=bungID ,name=current_user )
 
 
 
@@ -329,6 +322,7 @@ def reserveringspagina(heeft_boekingen):
 @role_required('admin')
 def admin_dashboard():
     bungID = Boeking.query.filter_by().all()
+    
     bunginfo = Tent.query.filter_by().all()
 
     # Render the HTML template and pass the data
@@ -487,7 +481,7 @@ def update_user():
     username = request.form.get('username')
     woonplaats = request.form.get('woonplaats')
     huisnummer = request.form.get('huisnummer')
-    # toevoeging = request.form.get('toevoeging')
+    toevoeging = request.form.get('toevoeging')
     straat = request.form.get('straat')
     postcode = request.form.get('postcode')
 
@@ -499,7 +493,7 @@ def update_user():
         guser.username = username
         guser.woonplaats = woonplaats
         guser.huisnummer = huisnummer
-        # guser.toevoeging = toevoeging
+        guser.toevoeging = toevoeging
         guser.straat = straat
         guser.postcode = postcode
 
