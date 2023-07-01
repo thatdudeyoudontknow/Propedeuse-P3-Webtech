@@ -8,7 +8,7 @@
 {% endfor %}
 <h1>Uw boekingen</h1>
 
-<ul>
+
     {% for item in bungID %}
     <table>
         <tr>
@@ -27,6 +27,7 @@
             <a href="{{ url_for('delete_boeking', boeking_id=item.id) }}" onclick="return confirm('Weet je zeker dat je deze boeking wilt verwijderen?')" class="verwijderen">Verwijder</a>
         </td>
     </tr>
+    </table>
     {% endfor %}
     {% for booking in bungID %}
     <div class="booking-item">
@@ -40,14 +41,14 @@
         <a href="{{ url_for('print_booking', booking_id=booking.id) }}" target="_blank">Print</a>
     </div>
     {% endfor %}
-    </table>
-</ul>
+    
+
 
 <h1>pas uw boeking aan </h1>
 <form class="form-grid" action="/update_boeking" method="POST">
     <input type="text" name="boeking_id" placeholder="Boekingnummer" required>
-    <input type="date" name="startdatum" placeholder="Startdatum" required>
-    <input type="date" name="einddatum" placeholder="Einddatum" required>
+    <input type="date" name="startdatum" required>
+    <input type="date" name="einddatum"  required>
     <button type="submit">Update</button>
   </form>
 

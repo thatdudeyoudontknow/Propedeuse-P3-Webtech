@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, redirect, request, url_for, flash
+from flask import Flask, render_template, redirect, request, url_for, flash,jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user 
@@ -82,16 +82,15 @@ def logout():
     flash(u'Je bent nu uitgelogd!', 'success')
     return redirect(url_for('index'))
 
-@app.route('/boekingen')
-@login_required
-@check_user_bookings
-def boekingen(heeft_boekingen):
-    print("kankk")
-    today = datetime.now()
-    weeknummer = datetime.date(today).isocalendar()[1]
-    nieuweBoekingen = Boeking.query.filter(Boeking.userID == current_user.id, Boeking.weeknummer > weeknummer)
-    oudeBoekingen = Boeking.query.filter(Boeking.userID == current_user.id, Boeking.weeknummer <= weeknummer)
-    return render_template('boekingen.html', nieuweBoekingen=nieuweBoekingen, oudeBoekingen=oudeBoekingen, heeft_boekingen=heeft_boekingen)
+# @app.route('/boekingen')
+# @login_required
+# @check_user_bookings
+# def boekingen(heeft_boekingen):
+#     today = datetime.now()
+#     weeknummer = datetime.date(today).isocalendar()[1]
+#     nieuweBoekingen = Boeking.query.filter(Boeking.userID == current_user.id, Boeking.weeknummer > weeknummer)
+#     oudeBoekingen = Boeking.query.filter(Boeking.userID == current_user.id, Boeking.weeknummer <= weeknummer)
+#     return render_template('boekingen.html', nieuweBoekingen=nieuweBoekingen, oudeBoekingen=oudeBoekingen, heeft_boekingen=heeft_boekingen)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -219,45 +218,56 @@ def gebruiker(heeft_boekingen):
 
 @app.route('/update_boeking', methods=['POST'])
 def update_boeking():
+
     # Get form data
     boeking_id = request.form.get('boeking_id')
-    startdatum = datetime.strptime(request.form.get('startdatum'), '%Y-%m-%d').date()
-    einddatum = datetime.strptime(request.form.get('einddatum'), '%Y-%m-%d').date()
+    startdatum_str = request.form.get('startdatum')
+    einddatum_str = request.form.get('einddatum')
 
-    # Retrieve the Boeking record from the database
-    boeking = Boeking.query.get(boeking_id)
+    # Check if the required fields are empty
+    if not all([boeking_id, startdatum_str, einddatum_str]):
+        flash(u'Ongeldige datumnotatie. Gebruik het formaat DD-MM-JJJJ', 'error')
+        return  redirect('/gebruiker')
 
-    if boeking:
-        # Check if the logged-in user owns the Boeking record
-        if current_user.id == boeking.userID:
-            min_startdatum = datetime.now().date() + timedelta(days=7)
-            if startdatum < min_startdatum:
-                flash(u'De startdatum moet minimaal 7 dagen in de toekomst liggen', 'error')
-                return redirect(url_for('gebruiker'))
+    try:
+        # Parse the date strings
+        startdatum = datetime.strptime(startdatum_str, '%Y-%m-%d').date()
+        einddatum = datetime.strptime(einddatum_str, '%Y-%m-%d').date()
 
-            # Check if there is at least 1 day in between the start and end dates
-            if (einddatum - startdatum).days < 1:
-                flash(u'Er moet minimaal 1 dag tussen de start- en einddatum liggen', 'error')
-                return redirect(url_for('gebruiker'))
+         # Retrieve the Boeking record from the database
+        boeking = Boeking.query.get(boeking_id)
 
-            # Update the Boeking record
-            boeking.startdatum = startdatum
-            boeking.einddatum = einddatum
+        if boeking:
+            # Check if the logged-in user owns the Boeking record
+            if current_user.id == boeking.userID:
+                min_startdatum = datetime.now().date() + timedelta(days=7)
+                if startdatum < min_startdatum:
+                    flash(u'De startdatum moet minimaal 7 dagen in de toekomst liggen', 'error')
+                    return redirect(url_for('gebruiker'))
 
-            # Commit the changes to the database
-            db.session.commit()
+                # Check if there is at least 1 day in between the start and end dates
+                if (einddatum - startdatum).days < 1:
+                    flash(u'Er moet minimaal 1 dag tussen de start- en einddatum liggen', 'error')
+                    return redirect(url_for('gebruiker'))
 
-            # Redirect the user to a relevant page
-            return redirect('/gebruiker')
+                # Update the Boeking record
+                boeking.startdatum = startdatum
+                boeking.einddatum = einddatum
+
+                # Commit the changes to the database
+                db.session.commit()
+
+                # Redirect the user to a relevant page
+                return redirect('/gebruiker')
+            else:
+                flash("Er ging iets fout. Probeer het opnieuw.")
+                return redirect('/gebruiker')
         else:
-            flash("Er ging iets fout. Probeer het opnieuw.")
+            flash(u'Boeking ID is niet bekend', 'warning')
             return redirect('/gebruiker')
-    else:
-        flash(u'Boeking ID is niet bekend', 'warning')
+    except ValueError:
+        flash(u'Ongeldige datumnotatie. Gebruik het formaat DD-MM-JJJJ', 'error')
         return redirect('/gebruiker')
-
-
-
 
 
 @app.route('/1accomidatiepagina')

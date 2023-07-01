@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="nl" dir="ltr">
 <head>
     <meta charset="utf-8">
- 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style.css') }}">
 
 <title>Bungalow park</title>
@@ -62,7 +63,7 @@
 
               {% endif %}
             {% if current_user.role == 'admin' %}
-            <a class="nav-link {% if request.path == url_for('admin_dashboard') %}active{% endif %}" aria-current="page" href="{{ url_for('admin_dashboard')}}">admin dashboard</a>
+            <li><a class="nav-link {% if request.path == url_for('admin_dashboard') %}active{% endif %}" aria-current="page" href="{{ url_for('admin_dashboard')}}">admin dashboard</a></li>
             {% endif %}
           </ul>
         </div>

@@ -8,7 +8,7 @@
 {% endfor %}
 <h1>Alle boekingen</h1>
 
-<ul>
+
     <table>
         <tr>
             <th>Boekingnummer</th>
@@ -24,18 +24,18 @@
         <td>{{ item.startdatum.strftime('%d-%m-%Y')  }}</td>
         <td>{{ item.einddatum.strftime('%d-%m-%Y') }}</td>
         <td>
-            <a href="{{ url_for('delete_boeking', boeking_id=item.id) }}" onclick="return confirm('Weet je zeker dat je deze boeking wilt verwijderen?')"class="verwijderen">Verwijder</a>
+            <a href="{{ url_for('delete_boeking', boeking_id=item.id) }}" onclick="return confirm('Weet je zeker dat je deze boeking wilt verwijderen?')" class="verwijderen">Verwijder</a>
         </td>
     </tr>
     {% endfor %}
     </table>
-</ul>
+
 
 <h1>pas boekingen aan </h1>
 <form class="form-grid" action="/admin_boeking" method="POST">
     <input type="text" name="boeking_id" placeholder="Boekingnummer" required>
-    <input type="date" name="startdatum" placeholder="Startdatum" required>
-    <input type="date" name="einddatum" placeholder="Einddatum" required>
+    <input type="date" name="startdatum"  required>
+    <input type="date" name="einddatum"  required>
     <button type="submit">Update</button>
   </form>
   <br>
@@ -47,7 +47,7 @@
 <br>
 <br>
   <h1>Alle tenten</h1>
-  <ul>
+  
     <table>
         <tr>
             <th>id</th>
@@ -66,7 +66,7 @@
     </tr>
     {% endfor %}
     </table>
-</ul>
+
 
 <h1>pas tenten aan </h1>
 <form class="form-grid" action="/admin_tenten" method="POST">
