@@ -3,19 +3,7 @@
     justify-content: center;
 }
   
-.row{
-padding: 0.5rem 1rem;
-border-radius: 0.25rem;
-font-size: 1.2rem;
-font-weight: 600;
-text-decoration: none;
-text-align: center;
-white-space: nowrap;
-cursor: pointer;
-color: #6a6a6a;    
-box-shadow: 0 0 0 0.01rem black;
-border: none;
-}
+.row{padding: 0.5rem 1rem;border-radius: 0.25rem;font-size: 1.2rem;font-weight: 600;/* text-decoration: none; */text-align: center;/* white-space: nowrap; *//* cursor: pointer; *//* color: #6a6a6a; */box-shadow: 0 0 0 0.01rem black;/* border: none; */}
 
 .btn {
   display: inline-block;
@@ -44,12 +32,12 @@ border: none;
 
 }
 
-.form-control{
-background-color:#faf5f0;
-}
+
 
 .form-label{
-    text-align:start;
+    text-align: left;
+    display: inline-table;
+    width: 9.5rem;
 }
 
 #flash-messages {
@@ -79,3 +67,6 @@ background-color:#faf5f0;
   background-color: #cc8454;
 }
 
+.form_control_pass{  
+  background-color: #faf5f0;
+}

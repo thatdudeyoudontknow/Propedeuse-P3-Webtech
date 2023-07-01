@@ -99,6 +99,11 @@ body {
   border: none;
   border-radius: 0;
   border-bottom: 2px solid #d9d9d9;
+  background-color: #faf5f0;
+  /* writing-mode: horizontal-tb !important; */
+  /* width: 20px; */
+  /* text-indent: 10px; */
+  /* padding-left: 100px; */
 }
 
 .form-control:focus {
@@ -526,4 +531,19 @@ th {
   color: rgb(114, 1, 1);
 }
 
+}
+
+.form_reg{
+  width: 10rem;
+}
+.form-label2{
+
+text-align: left;
+
+display: inline-table;
+
+
+font-weight: bold;
+
+color: #6a6a6a;
 }

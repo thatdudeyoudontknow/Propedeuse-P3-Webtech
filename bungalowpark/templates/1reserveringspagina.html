@@ -14,7 +14,7 @@
             <form method="POST">
                 {{ form.hidden_tag() }}
                 <div class="mb-2">
-                    <label class="form-label">Tent</label>
+                    <label class="form-label2">Tent</label>
                     <select title="tentttt" class="form-control" name="tent">
                         {% for tent in tents %}
                             <option value="{{ tent.id }}">{{ tent.naam }}- nachtprijs: {{ tent.prijs_per_dag }} - personen: {{ tent.aantal_personen }}</option>
