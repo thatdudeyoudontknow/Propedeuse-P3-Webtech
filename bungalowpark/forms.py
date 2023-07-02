@@ -22,11 +22,11 @@ class RegistrationForm(FlaskForm):
 
     def validate_woonplaats(self, field):
         if not field.data.replace('.', '').replace('-', '').isalpha():
-            raise ValidationError('ongeldige woonplaats')
+            raise ValidationError('Ongeldige woonplaats')
 
     def validate_straat(self, field):
         if not field.data.replace('.', '').replace('-', '').isalpha():
-            raise ValidationError('ongeldige straatnaam.')
+            raise ValidationError('Ongeldige straatnaam.')
     
     def check_email(self, field):
         if User.query.filter_by(email=field.data).first():
@@ -38,7 +38,7 @@ class RegistrationForm(FlaskForm):
 
 class LoginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
-    password = PasswordField('wachtwoord', validators=[DataRequired()])
+    password = PasswordField('Wachtwoord', validators=[DataRequired()])
     submit = SubmitField('Inloggen')
 
 # class BoekingForm(FlaskForm):

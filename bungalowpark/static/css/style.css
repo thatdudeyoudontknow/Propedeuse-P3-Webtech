@@ -12,12 +12,11 @@ body {
 .navigatiebar{
   width: 100%;
   background-color: #e4b37d;
-
   list-style-type: none;
   margin: 0;
   padding: 0;
   overflow: hidden;
-
+  /* border-radius: 20px; */
 }
     
 .header {
@@ -42,6 +41,7 @@ body {
   width: 100%;
   background-color: #e4b37d;
   overflow: auto;
+  border-radius: 4px;
 }
 
 .nav-link {
@@ -52,11 +52,18 @@ body {
   font-size: 17px;
 }
 
+.nav-link2 {
+  float: RIGHT;
+  padding: 12px;
+  color: white;
+  text-decoration: none;
+  font-size: 17px;
+}
 .navbar2-nav{
   list-style-type: none;
   margin: 0;
   padding: 0;
-  overflow: hidden
+  overflow: hidden;
 }
 
 .navbar2-nav a {
@@ -64,7 +71,7 @@ body {
   padding: 12px;
   color: white;
   text-decoration: none;
-  font-size: 17px;  
+  font-size: 17px;
 }
 
 .navbar b {
@@ -78,6 +85,7 @@ body {
 
 .navbar a:hover {
   background-color: #cc8454;
+  border-radius: 4px;
 }
 
 .navbar b:hover {
@@ -148,6 +156,7 @@ body {
 
 .active {
   background-color: #c56e37;
+  border-radius: 4px;
 }
 
 /* style buiten box 1 */
@@ -321,7 +330,6 @@ body {
 
 .box5_in {
   box-sizing: border-box;
-  
   position: absolute;
   width: 55%;
   height: 85%;
@@ -332,7 +340,8 @@ body {
   color: white;
   text-align: center;
   font-size: large;
-  overflow: auto;
+  overflow: scroll;
+  font-size: auto;
 }
 
 .box5 {
@@ -552,4 +561,8 @@ color: #6a6a6a;
   width: 80%;
   margin: 2em;
   border-radius: 20px;
+}
+
+.collapse{
+  /* border-radius: 1em; */
 }

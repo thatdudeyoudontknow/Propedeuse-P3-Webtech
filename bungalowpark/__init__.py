@@ -110,7 +110,7 @@ def login():
         else:
             flash(u'U email of wachtwoord is niet correct.', 'warning')     
     elif form.email.errors:  
-        flash(u'u email is niet bestaand', 'warning')
+        flash(u'Uw email is niet bestaand', 'warning')
     return render_template('login.html', form=form) 
 
 
@@ -149,13 +149,13 @@ def register():
         flash(u'Dit email is incorrect')    
 
     elif form.postcode.errors:
-        flash(u'ongeldige postcode')
+        flash(u'Ongeldige postcode')
     
     elif form.woonplaats.errors:
-        flash(u'ongeldige woonplaats')
+        flash(u'Ongeldige woonplaats')
               
     elif form.straat.errors:
-        flash(u'ongeldige straatnaam')
+        flash(u'Ongeldige straatnaam')
 
     elif form.password.errors:
         flash(u'Wachtwoord komt niet overeen')
@@ -201,7 +201,7 @@ def reserveer(heeft_boekingen):
         flash(u'U heeft met succes uw bungalow geboekt', 'success')
         return redirect(url_for('gebruiker'))
 
-    return render_template('1reserveringspagina.html', name=current_user, form=form, tents=tents)
+    return render_template('1reserveringspagina.html', name=current_user, form=form, tents=tents, heeft_boekingen=heeft_boekingen)
 
 
 @app.route('/gebruiker')
@@ -212,7 +212,7 @@ def gebruiker(heeft_boekingen):
     bungID = Boeking.query.filter_by(userID=current_user.id).all()
     
 
-    return render_template('gebruiker.html', bungID=bungID, heeft_boekingen=heeft_boekingen)
+    return render_template('gebruiker.html',name=current_user, bungID=bungID, heeft_boekingen=heeft_boekingen)
 
 
 
@@ -405,11 +405,6 @@ def admin_tenten():
 
 
 
-@app.route('/test')
-def test():
-    selected_option = '1'#request.form['option']
-    options = ["Action", "Another action", "Something else here"]
-    return render_template('test.html', options=options, selected_option=selected_option)
 
 @app.route('/delete_boeking/<int:boeking_id>', methods=['GET', 'POST'])
 @login_required
@@ -440,7 +435,7 @@ def ww_vergetenpost():
     user = User.query.filter_by(email=email).first()
 
     if user:
-        print("1")
+    
         if code == '3269':
             user.password_hash = generate_password_hash(new_password)
             # Commit the changes to the database
@@ -448,21 +443,23 @@ def ww_vergetenpost():
             # Redirect the user to a relevant page
             return redirect('/login')
         else:
-            flash(u'Verificatie Code is onjuist.')
+            flash(u'Verificatie code is niet correct')
             return redirect ("/ww_vergeten")
     else:
-        print("2")
-        flash(u'email niet correct', 'warning')
+        
+        flash(u'Email is niet correct', 'warning')
         return redirect ('/ww_vergeten')
 
     
 @app.route('/ww_vergeten')
-def ww_vergeten():
-        return render_template('ww_vergeten.html',)
+@check_user_bookings
+def ww_vergeten(heeft_boekingen):
+        return render_template('ww_vergeten.html' ,name=current_user, heeft_boekingen=heeft_boekingen)
 
 
 @app.route('/print_booking/<int:booking_id>')
 @login_required
+
 def print_booking(booking_id):
     booking = Boeking.query.get(booking_id)
 
@@ -476,50 +473,13 @@ def print_booking(booking_id):
         flash(u'Booking ID is not found.', 'warning')
 
     return redirect(url_for('gebruiker'))
-# @app.route('/user')
-# @login_required
-# def user():
-#     user = User.query.filter_by(id=current_user.id).first()
-#     return render_template('user.html', user=user, name=current_user)
 
- 
-
-# @app.route('/update_user',methods=['POST'] )
-# @login_required
-# def update_user():
-#  # Get form data
-#     email = request.form.get('email')
-#     username = request.form.get('username')
-#     woonplaats = request.form.get('woonplaats')
-#     huisnummer = request.form.get('huisnummer')
-#     toevoeging = request.form.get('toevoeging')
-#     straat = request.form.get('straat')
-#     postcode = request.form.get('postcode')
-
-#     guser = User.query.filter_by(id=current_user.id).first()
-
-#     if guser:
-
-#         guser.email = email
-#         guser.username = username
-#         guser.woonplaats = woonplaats
-#         guser.huisnummer = huisnummer
-#         guser.toevoeging = toevoeging
-#         guser.straat = straat
-#         guser.postcode = postcode
-
-#         db.session.commit()
-
-#         flash(u'uw gegevens zijn succesvol veranderd', 'warning')
-#         return redirect('/user')
-#     else:
-#         flash(u'Er is iets fout gegaan', 'warning')
-#         return redirect('/user')
 
 
 @app.route('/account/update', methods=['GET', 'POST'])
 @login_required  # Make sure the route is accessible only to logged-in users
-def account_update():
+@check_user_bookings
+def account_update(heeft_boekingen):
     form = AccountUpdateForm()
 
     if form.validate_on_submit():
@@ -549,4 +509,4 @@ def account_update():
     form.straat.data = current_user.straat
     form.postcode.data = current_user.postcode
 
-    return render_template('account_bijwerken.html', form=form)
+    return render_template('account_bijwerken.html', form=form ,name=current_user, heeft_boekingen=heeft_boekingen)

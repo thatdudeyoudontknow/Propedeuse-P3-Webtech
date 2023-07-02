@@ -14,37 +14,31 @@
         <tr>
             <th>Boekingnummer</th>
             <th>Bungalow type</th>
-            <th>startdatum</th>            
-            <th>einddatum</th>
+            <th>Startdatum</th>            
+            <th>Einddatum</th>
             <th>Acties</th>
+            <th>Print</th>
         </tr>
     <tr>
         <td>{{ item.id }}</td>
         <td>{{ item.tent_omschrijving }}</td>
         <td>{{ item.startdatum.strftime('%d-%m-%Y')  }}</td>
         <td>{{ item.einddatum.strftime('%d-%m-%Y') }}</td>
+        
         <td>
             <a href="{{ url_for('delete_boeking', boeking_id=item.id) }}" onclick="return confirm('Weet je zeker dat je deze boeking wilt verwijderen?')" class="verwijderen">Verwijder</a>
+        </td>
+        <td>
+            <a href="{{ url_for('print_booking', booking_id=item.id) }}" target="_blank">Print</a>
         </td>
     </tr>
     </table>
     {% endfor %}
-    {% for booking in bungID %}
-    <div class="booking-item">
-        <p>Booking ID: {{ booking.id }}</p>
-        <p>Start Date: {{ booking.startdatum }}</p>
-        <p>End Date: {{ booking.einddatum }}</p>
-        <p>Tent: {{ booking.tent_omschrijving }}</p>
-        <!-- Add more booking details as needed -->
-
-        <!-- Add a link or button to print the booking -->
-        <a href="{{ url_for('print_booking', booking_id=booking.id) }}" target="_blank">Print</a>
-    </div>
-    {% endfor %}
+    
     
 
 
-<h1>pas uw boeking aan </h1>
+<h1>Pas uw boeking aan </h1>
 <form class="form-grid" action="/update_boeking" method="POST">
     <input type="text" name="boeking_id" placeholder="Boekingnummer" required>
     <input type="date" name="startdatum" required>

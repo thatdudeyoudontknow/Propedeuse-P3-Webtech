@@ -53,7 +53,7 @@ class User(db.Model, UserMixin):
         db.session.commit()
 
     def __repr__(self):
-        return f"Welkom, {self.username}"
+        return f"account, {self.username}"
 
 
 

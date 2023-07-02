@@ -6,7 +6,7 @@
     {{ message }}
 </div>
 {% endfor %}
-<h1 style="text-align: center;">{{name}}</h1>
+
 
 <form class="form-grid" action="{{ url_for('account_update') }}" method="POST">
     {{ form.hidden_tag() }}
