@@ -423,35 +423,6 @@ def delete_boeking(boeking_id):
 
     return redirect(url_for('gebruiker'))
 
-@app.route('/ww_vergetenpost', methods=['POST'])
-def ww_vergetenpost():   
-    email = request.form.get('email')
-    code = request.form.get('code')
-    new_password = request.form.get('new_password')
-
-    user = User.query.filter_by(email=email).first()
-
-    if user:
-    
-        if code == '3269':
-            user.password_hash = generate_password_hash(new_password)
-            # Commit the changes to the database
-            db.session.commit()
-            # Redirect the user to a relevant page
-            return redirect('/login')
-        else:
-            flash(u'Verificatie code is niet correct')
-            return redirect ("/ww_vergeten")
-    else:
-        
-        flash(u'Email is niet correct', 'warning')
-        return redirect ('/ww_vergeten')
-
-    
-@app.route('/ww_vergeten')
-@check_user_bookings
-def ww_vergeten(heeft_boekingen):
-        return render_template('ww_vergeten.html' ,name=current_user, heeft_boekingen=heeft_boekingen)
 
 
 @app.route('/print_booking/<int:booking_id>')
@@ -540,7 +511,7 @@ def reset_password(token):
         user = User.query.filter_by(password_reset_token=token).first()
         if user is None:
             flash('Oude link. Vraag een nieuwe aan.', 'danger')
-            return redirect(url_for('login'))
+            return redirect(url_for('forgot_password'))
         if user and user.password_reset_expiration and user.password_reset_expiration > datetime.utcnow():
 
             user.password_hash = generate_password_hash(form.password.data)  # Set the new password
@@ -549,7 +520,7 @@ def reset_password(token):
             db.session.commit()
 
             flash('Wachtwoord is aangepast.', 'success')
-            return redirect(url_for('login'))
+            return redirect(url_for('index'))
         else:
             print("Invalid or expired token")
 

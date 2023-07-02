@@ -3,7 +3,7 @@
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/style_login.css') }}">
 {% for message in get_flashed_messages() %}
 <div class="alert alert-warning">
-    <button type="button" class="close" data-dismiss="alert">&times;</button>
+    
     {{ message }}
 </div>
 {% endfor %}
