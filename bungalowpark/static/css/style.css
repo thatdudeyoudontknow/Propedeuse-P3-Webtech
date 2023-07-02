@@ -340,7 +340,8 @@ body {
   color: white;
   text-align: center;
   font-size: large;
-  overflow: scroll;
+  overflow-y: scroll;
+  overflow-x: hidden;
   font-size: auto;
 }
 
