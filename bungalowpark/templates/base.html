@@ -51,7 +51,7 @@
           </ul>
           <ul class="navbar2-nav ">
             {% if current_user.is_authenticated %}
-              <li><a class ="welkom" href="{{ url_for('user')}}">{{ name }}</a></li>
+              <li><a class ="welkom" href="{{ url_for('account_update')}}">{{ name }}</a></li>
               <li><a class="nav-link" href="{{ url_for('logout') }}">Uitloggen</a></li>
               {% if heeft_boekingen and current_user.role =='user' %}
               <li><a class="nav-link" href="{{ url_for('gebruiker') }}">boekingen</a></li>

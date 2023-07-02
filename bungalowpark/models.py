@@ -42,6 +42,16 @@ class User(db.Model, UserMixin):
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
 
+    def update_account(self, email, username, woonplaats, huisnummer, toevoeging, straat, postcode):
+        self.email = email
+        self.username = username
+        self.woonplaats = woonplaats
+        self.huisnummer = huisnummer
+        self.toevoeging = toevoeging
+        self.straat = straat
+        self.postcode = postcode
+        db.session.commit()
+
     def __repr__(self):
         return f"Welkom, {self.username}"
 

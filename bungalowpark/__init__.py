@@ -11,6 +11,7 @@ from datetime import datetime, timedelta
 from functools import wraps
 
 
+
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'X11gc3N5hb78RGyKY4qk5qHZ8aqC4Ch7'
 
@@ -26,7 +27,7 @@ db = SQLAlchemy(app)
 Migrate(app, db)
 
 from bungalowpark.models import  User, Boeking, Tent 
-from bungalowpark.forms import LoginForm, RegistrationForm, BoekingForm
+from bungalowpark.forms import LoginForm, RegistrationForm, BoekingForm, AccountUpdateForm
 from functools import wraps
 
 
@@ -475,42 +476,77 @@ def print_booking(booking_id):
         flash(u'Booking ID is not found.', 'warning')
 
     return redirect(url_for('gebruiker'))
-@app.route('/user')
-@login_required
-def user():
-    user = User.query.filter_by(id=current_user.id).first()
-    return render_template('user.html', user=user, name=current_user)
+# @app.route('/user')
+# @login_required
+# def user():
+#     user = User.query.filter_by(id=current_user.id).first()
+#     return render_template('user.html', user=user, name=current_user)
 
  
 
-@app.route('/update_user',methods=['POST'] )
-@login_required
-def update_user():
- # Get form data
-    email = request.form.get('email')
-    username = request.form.get('username')
-    woonplaats = request.form.get('woonplaats')
-    huisnummer = request.form.get('huisnummer')
-    toevoeging = request.form.get('toevoeging')
-    straat = request.form.get('straat')
-    postcode = request.form.get('postcode')
+# @app.route('/update_user',methods=['POST'] )
+# @login_required
+# def update_user():
+#  # Get form data
+#     email = request.form.get('email')
+#     username = request.form.get('username')
+#     woonplaats = request.form.get('woonplaats')
+#     huisnummer = request.form.get('huisnummer')
+#     toevoeging = request.form.get('toevoeging')
+#     straat = request.form.get('straat')
+#     postcode = request.form.get('postcode')
 
-    guser = User.query.filter_by(id=current_user.id).first()
+#     guser = User.query.filter_by(id=current_user.id).first()
 
-    if guser:
+#     if guser:
 
-        guser.email = email
-        guser.username = username
-        guser.woonplaats = woonplaats
-        guser.huisnummer = huisnummer
-        guser.toevoeging = toevoeging
-        guser.straat = straat
-        guser.postcode = postcode
+#         guser.email = email
+#         guser.username = username
+#         guser.woonplaats = woonplaats
+#         guser.huisnummer = huisnummer
+#         guser.toevoeging = toevoeging
+#         guser.straat = straat
+#         guser.postcode = postcode
 
+#         db.session.commit()
+
+#         flash(u'uw gegevens zijn succesvol veranderd', 'warning')
+#         return redirect('/user')
+#     else:
+#         flash(u'Er is iets fout gegaan', 'warning')
+#         return redirect('/user')
+
+
+@app.route('/account/update', methods=['GET', 'POST'])
+@login_required  # Make sure the route is accessible only to logged-in users
+def account_update():
+    form = AccountUpdateForm()
+
+    if form.validate_on_submit():
+        current_user.email = form.email.data
+        current_user.username = form.username.data
+        current_user.woonplaats = form.woonplaats.data
+        current_user.huisnummer = form.huisnummer.data
+        current_user.toevoeging = form.toevoeging.data
+        current_user.straat = form.straat.data
+        current_user.postcode = form.postcode.data
         db.session.commit()
+        flash('Je accountinformatie is bijgewerkt!', 'success')
+        return redirect(url_for('account_update'))
+    
+    
+    if form.errors:
+        for field, errors in form.errors.items():
+            for error in errors:
+                flash(f'{field.capitalize()}: {error}', 'error')
 
-        flash(u'uw gegevens zijn succesvol veranderd', 'warning')
-        return redirect('/user')
-    else:
-        flash(u'Er is iets fout gegaan', 'warning')
-        return redirect('/user')
+    # Pre-fill the form fields with the user's existing data
+    form.email.data = current_user.email
+    form.username.data = current_user.username
+    form.woonplaats.data = current_user.woonplaats
+    form.huisnummer.data = current_user.huisnummer
+    form.toevoeging.data = current_user.toevoeging
+    form.straat.data = current_user.straat
+    form.postcode.data = current_user.postcode
+
+    return render_template('account_bijwerken.html', form=form)
