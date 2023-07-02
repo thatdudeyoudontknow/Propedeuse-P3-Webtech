@@ -9,7 +9,7 @@ from werkzeug.security import generate_password_hash
 from flask_login import current_user
 from datetime import datetime, timedelta
 from functools import wraps
-
+import secrets
 
 
 app = Flask(__name__)
@@ -27,7 +27,7 @@ db = SQLAlchemy(app)
 Migrate(app, db)
 
 from bungalowpark.models import  User, Boeking, Tent 
-from bungalowpark.forms import LoginForm, RegistrationForm, BoekingForm, AccountUpdateForm
+from bungalowpark.forms import LoginForm, RegistrationForm, BoekingForm, AccountUpdateForm,wwupdateform
 from functools import wraps
 
 
@@ -301,10 +301,7 @@ def contactpagina(heeft_boekingen):
 def faciliteitenpagina(heeft_boekingen):
     return render_template('1faciliteitenpagina.html',name=current_user, heeft_boekingen=heeft_boekingen)
 
-@app.route('/1homepagina')
-@check_user_bookings
-def homepagina(heeft_boekingen):
-    return render_template('1homepagina.html',name=current_user, heeft_boekingen=heeft_boekingen)
+
 
 @app.route('/1informatiepagina')
 @check_user_bookings
@@ -510,3 +507,54 @@ def account_update(heeft_boekingen):
     form.postcode.data = current_user.postcode
 
     return render_template('account_bijwerken.html', form=form ,name=current_user, heeft_boekingen=heeft_boekingen)
+
+
+@app.route('/forgot_password', methods=['GET', 'POST'])
+def forgot_password():
+    if request.method == 'POST':
+        email = request.form['email']
+        user = User.query.filter_by(email=email).first()
+
+        if user:
+            # Generate a secure token for the special link
+            token = secrets.token_hex(16)
+
+            # Store the token in the database for this user
+            user.password_reset_token = token
+            user.password_reset_expiration = datetime.utcnow() + timedelta(hours=1)  # The token is valid for 1 hour
+            db.session.commit()
+
+            # Display the special link on the screen
+            special_link = url_for('reset_password', token=token, _external=True)
+            flash(f"Link die naar de email is gestuurd: {special_link}", 'info')
+        else:
+            flash("Email onbekend.", 'warning')
+
+    return render_template('forgot_password.html')
+
+
+@app.route('/reset_password/<token>', methods=['GET', 'POST'])
+def reset_password(token):
+    form = wwupdateform()
+    if form.validate_on_submit():
+        user = User.query.filter_by(password_reset_token=token).first()
+        if user is None:
+            flash('Oude link. Vraag een nieuwe aan.', 'danger')
+            return redirect(url_for('login'))
+        if user and user.password_reset_expiration and user.password_reset_expiration > datetime.utcnow():
+
+            user.password_hash = generate_password_hash(form.password.data)  # Set the new password
+            user.password_reset_token = None  # Clear the reset token
+            user.password_reset_expiration = None  # Clear the reset expiration
+            db.session.commit()
+
+            flash('Wachtwoord is aangepast.', 'success')
+            return redirect(url_for('login'))
+        else:
+            print("Invalid or expired token")
+
+
+
+    return render_template('reset_password.html', form=form, token=token)
+
+

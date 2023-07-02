@@ -1,7 +1,7 @@
 from bungalowpark import db, app, login_manager
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin, current_user
-
+from datetime import datetime
 # login_manager haalt user op
 @login_manager.user_loader
 def load_user(user_id):
@@ -24,8 +24,8 @@ class User(db.Model, UserMixin):
     straat = db.Column(db.String(40), nullable=False)
     postcode = db.Column(db.String(6), nullable=False)
     role = db.Column(db.String(20), nullable=False, default='user')
-
-
+    password_reset_token = db.Column(db.String(100), nullable=True)
+    password_reset_expiration = db.Column(db.DateTime)
 
     def __init__(self, email, username,password, woonplaats,huisnummer,straat,postcode,toevoeging,role='user'):
         self.email = email
@@ -54,6 +54,7 @@ class User(db.Model, UserMixin):
 
     def __repr__(self):
         return f"account, {self.username}"
+
 
 
 

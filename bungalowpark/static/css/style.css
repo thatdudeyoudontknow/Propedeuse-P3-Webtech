@@ -165,22 +165,17 @@ body {
   position: fixed;
   width: 819px;
   height: 318px;
-  
-  background: #E4B37D;
+  background: #e4b37d;
   border-radius: 20px;
   margin-left: 3%;
-  
-
 }
 
 /* style binnen box 1 */
 .box1_in {
   box-sizing: border-box;
-  
   position: absolute;
   width: 60%;
   height: 80%;
-
   border: 1px solid #CC8454;
   border-radius: 20px;
   margin-left: 34%;
@@ -280,12 +275,17 @@ body {
 /* style binnen box 1 */
 .box1_img {
 
-  border-radius: 20px;
-  position: absolute;
-  width: 224px;
-  height: 260px;
-  left: 3%;
-  top: 9%;
+border-radius: 20px;
+
+position: absolute;
+
+width: 224px;
+
+height: 260px;
+
+left: 3%;
+
+top: 9%;
 }
 
 .box2_img {
@@ -320,12 +320,17 @@ body {
 
 .box5_img {
 
-  border-radius: 20px;
-  position: absolute;
-  width: 25%;
-  height: 85%;
-  left: 3%;
-  top: 9%;
+border-radius: 20px;
+
+position: absolute;
+
+width: 30%;
+
+height: 85%;
+
+left: 3%;
+
+top: 9%;
 }
 
 .box5_in {
@@ -342,7 +347,7 @@ body {
   font-size: large;
   overflow-y: scroll;
   overflow-x: hidden;
-  font-size: auto;
+
 }
 
 .box5 {
@@ -564,6 +569,7 @@ color: #6a6a6a;
   border-radius: 20px;
 }
 
-.collapse{
-  /* border-radius: 1em; */
+.ww_test{
+  border: #6a6a6a;
+  color: #6a6a6a;
 }

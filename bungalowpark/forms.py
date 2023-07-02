@@ -59,7 +59,6 @@ class BoekingForm(FlaskForm):
             raise ValidationError('Ongeldige tent selectie')
 
 
-
 class AccountUpdateForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     username = StringField('Gebruikersnaam', validators=[DataRequired()])
@@ -68,7 +67,9 @@ class AccountUpdateForm(FlaskForm):
     toevoeging = StringField('toevoeging')
     straat = StringField('Straat', validators=[DataRequired()])
     postcode = StringField('Postcode', validators=[DataRequired(), Regexp('^\d{4}[A-Za-z]{2}$', message='Ongeldige postcode!')])
-    submit = SubmitField('Opslaan')
+    password = PasswordField('Wachtwoord', validators=[DataRequired(), EqualTo('pass_confirm', message='Wachtwoorden moeten gelijk zijn!')])
+    pass_confirm = PasswordField('Bevestig uw wachtwoord', validators=[DataRequired()])
+    submit = SubmitField('Registeren!')
 
     def validate_woonplaats(self, field):
         if not field.data.replace('.', '').replace('-', '').isalpha():
@@ -87,3 +88,8 @@ class AccountUpdateForm(FlaskForm):
         user = User.query.filter_by(username=field.data).first()
         if user and user.id != current_user.id:
             raise ValidationError('Deze gebruikersnaam is al in gebruik, probeer een andere naam!')
+
+class wwupdateform(FlaskForm):
+    password = PasswordField('Wachtwoord', validators=[DataRequired(), EqualTo('pass_confirm', message='Wachtwoorden moeten gelijk zijn!')])
+    pass_confirm = PasswordField('Bevestig uw wachtwoord', validators=[DataRequired()])
+    submit = SubmitField('Verzend')
