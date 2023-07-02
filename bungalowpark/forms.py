@@ -11,7 +11,7 @@ class RegistrationForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     username = StringField('Gebruikersnaam', validators=[DataRequired()])
     woonplaats = StringField('Woonplaats', validators=[DataRequired()])
-    huisnummer = StringField('Huisnummer', validators=[DataRequired()])
+    huisnummer = IntegerField('Huisnummer', validators=[DataRequired()])
     toevoeging = StringField('toevoeging')
     straat = StringField('Straat', validators=[DataRequired()])
     postcode = StringField('Postcode', validators=[DataRequired(), Regexp('^\d{4}[A-Za-z]{2}$', message='Ongeldige postcode!')])
